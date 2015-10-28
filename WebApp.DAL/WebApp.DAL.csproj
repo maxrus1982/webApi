@@ -49,6 +49,11 @@
     <Compile Include="MainConfiguration.cs" />
     <Compile Include="MainContext.cs" />
     <Compile Include="Mapping\TaskMapping.cs" />
+    <Compile Include="Migrations\201510280540187_Task.cs" />
+    <Compile Include="Migrations\201510280540187_Task.Designer.cs">
+      <DependentUpon>201510280540187_Task.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -67,6 +72,11 @@
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201510280540187_Task.resx">
+      <DependentUpon>201510280540187_Task.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

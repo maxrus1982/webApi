@@ -11,6 +11,11 @@ namespace WebApp.DAL.Mapping
         {
             ToTable("Tasks");
             Property(p => p.Name);
+            Property(p => p.User);
+            Property(p => p.CreateDate);
+            Property(p => p.BeginDate);
+            Property(p => p.EndDate);
+            Property(p => p.IsCompleted);
         }
     }
 }
