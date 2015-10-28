@@ -46,7 +46,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AttributeHelper.cs" />
     <Compile Include="MainConfiguration.cs" />
+    <Compile Include="BaseContext.cs" />
     <Compile Include="MainContext.cs" />
     <Compile Include="Mapping\TaskMapping.cs" />
     <Compile Include="Migrations\201510280540187_Task.cs" />
@@ -54,6 +56,8 @@
       <DependentUpon>201510280540187_Task.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="ProjectionAttribute.cs" />
+    <Compile Include="ProjectionHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -68,6 +72,10 @@
     <ProjectReference Include="..\WebApp.Domain\WebApp.Domain.csproj">
       <Project>{438a337b-2bf5-4bb1-9e1e-758e2facbeee}</Project>
       <Name>WebApp.Domain</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\WebApp.Service.Interface\WebApp.Service.Interface.csproj">
+      <Project>{cf444418-e9e2-4c23-8562-c1d9488ef74f}</Project>
+      <Name>WebApp.Service.Interface</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

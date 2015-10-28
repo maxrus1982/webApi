@@ -66,6 +66,14 @@
       <Project>{438a337b-2bf5-4bb1-9e1e-758e2facbeee}</Project>
       <Name>WebApp.Domain</Name>
     </ProjectReference>
+    <ProjectReference Include="..\WebApp.Service.Interface\WebApp.Service.Interface.csproj">
+      <Project>{cf444418-e9e2-4c23-8562-c1d9488ef74f}</Project>
+      <Name>WebApp.Service.Interface</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\WebApp.Service\WebApp.Service.csproj">
+      <Project>{9c74daa7-b68d-465e-abf1-f22439143437}</Project>
+      <Name>WebApp.Service</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

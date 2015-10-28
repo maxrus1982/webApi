@@ -6,7 +6,7 @@ using WebApp.DAL.Mapping;
 
 namespace WebApp.DAL
 {
-    public class MainContext : DbContext
+    public class MainContext : BaseContext
     {
         public IDbSet<Task> Tasks { get; set; }
 
