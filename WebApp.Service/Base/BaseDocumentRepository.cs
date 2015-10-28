@@ -7,8 +7,9 @@ using System.Threading.Tasks;
 using WebApp.Domain.Interface;
 using WebApp.Service.Interface;
 using WebApp.DAL;
+using WebApp.Core;
 
-namespace WebApp.Service.Base
+namespace WebApp.Service
 {
     public abstract class BaseDocumentRepository<TDocument, TDocumentDTO, TRequest, TCreateDocumentRequest> : BaseListRepository<TDocumentDTO, TRequest>
         where TDocument : class, IDocument, new()
@@ -25,7 +26,7 @@ namespace WebApp.Service.Base
         //TO OVERRIDE
         protected virtual IQueryable<TDocument> BaseQuery()
         {
-            return Context.Query<TDocument>();
+            return DbContext.Query<TDocument>();
         }
 
         protected virtual TDocument GetByID(Guid documentID)
@@ -94,7 +95,7 @@ namespace WebApp.Service.Base
                 };
             }
             BeforeSaveDocument(__document, documentDTO, __isNewRecord);
-            __document = __isNewRecord ? Context.Set<TDocument>().Add(__document) : null;
+            __document = __isNewRecord ? DbContext.Set<TDocument>().Add(__document) : null;
             AfterSaveDocument(__document, documentDTO, __isNewRecord);
             return this.Get(__document.ID);
         }
@@ -104,7 +105,7 @@ namespace WebApp.Service.Base
             var __doc = this.GetByID(documentID);
             var __docDTO = Get(documentID);
             BeforeDeleteDocument(__doc, __docDTO);
-            Context.Set<TDocument>().Remove(__doc);
+            DbContext.Set<TDocument>().Remove(__doc);
             AfterDeleteDocument(__doc, __docDTO);
             return true;
         }
@@ -120,12 +121,12 @@ namespace WebApp.Service.Base
 
         }
 
-        protected virtual void BeforeSaveDocument(TDocument document, TDocumentDTO documentDTO, bool isNew, bool closeOperation = false)
+        protected virtual void BeforeSaveDocument(TDocument document, TDocumentDTO documentDTO, bool isNew)
         {
 
         }
 
-        protected virtual void AfterSaveDocument(TDocument document, TDocumentDTO documentDTO, bool isNew, bool closeOperation = false)
+        protected virtual void AfterSaveDocument(TDocument document, TDocumentDTO documentDTO, bool isNew)
         {
 
         }

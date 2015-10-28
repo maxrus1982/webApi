@@ -4,9 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace WebApp.Service.Repository
+namespace WebApp.Core
 {
-    public class TaskRepository
+    public class UserContext
     {
+        public String UserID { get; set; }
     }
 }

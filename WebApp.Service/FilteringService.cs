@@ -8,6 +8,7 @@ using System.Reflection;
 using WebApp.Domain.Interface;
 using WebApp.Service.Interface;
 using WebApp.DAL;
+using WebApp.Core;
 
 namespace WebApp.Service
 {

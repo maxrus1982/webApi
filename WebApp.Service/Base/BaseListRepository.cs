@@ -7,18 +7,20 @@ using System.Threading.Tasks;
 using WebApp.Domain.Interface;
 using WebApp.Service.Interface;
 using WebApp.DAL;
+using WebApp.Core;
 
-namespace WebApp.Service.Base
+namespace WebApp.Service
 {
-    public abstract class BaseListRepository<TDocumentDTO, TRequest>
+    public abstract class BaseListRepository<TDocumentDTO, TRequest> : IDisposable
         where TDocumentDTO : class, IDocumentDTO, new()
         where TRequest : Request, new()
     {
-        protected virtual BaseContext Context { get; set; }
+        protected virtual BaseContext DbContext { get; set; }
+        protected virtual UserContext UserContext { get; set; }
 
         public BaseListRepository(BaseContext context)
         {
-            Context = context;
+            DbContext = context;
         }
 
         public virtual IList<TDocumentDTO> GetList(TRequest request)
@@ -35,5 +37,35 @@ namespace WebApp.Service.Base
 
         protected abstract IQueryable<TDocumentDTO> Query(TRequest request);
         protected virtual void OnGetDocumentList(IList<TDocumentDTO> documentDTOList, TRequest request) { }
+
+        #region Dispose
+
+        private bool _disposed = false;
+        
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected void Dispose(bool disposing)
+        {
+            if (_disposed)
+                return;
+
+            if (disposing)
+            {
+                if (DbContext != null)
+                    DbContext.Dispose();
+            }
+
+            _disposed = true;
+        }
+
+        ~BaseListRepository()
+        {
+            Dispose(false);
+        }
+        #endregion
     }
 }

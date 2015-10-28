@@ -11,7 +11,7 @@ using System.Web;
 
 using WebApp.Domain.Interface;
 
-namespace WebApp.DAL
+namespace WebApp.Core
 {
     public static class ProjectionHelper
     {

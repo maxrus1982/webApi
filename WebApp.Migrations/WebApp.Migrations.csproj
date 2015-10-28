@@ -46,6 +46,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Migrations\201510281140339_PlanBeginDate.cs" />
+    <Compile Include="Migrations\201510281140339_PlanBeginDate.Designer.cs">
+      <DependentUpon>201510281140339_PlanBeginDate.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -54,6 +58,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\WebApp.Core\WebApp.Core.csproj">
+      <Project>{ed2dfb85-aef5-48e1-b54d-30eb578fadb9}</Project>
+      <Name>WebApp.Core</Name>
+    </ProjectReference>
     <ProjectReference Include="..\WebApp.DAL\WebApp.DAL.csproj">
       <Project>{e413e780-c894-4b7c-b616-e077b1385e11}</Project>
       <Name>WebApp.DAL</Name>
@@ -74,6 +82,11 @@
       <Project>{9c74daa7-b68d-465e-abf1-f22439143437}</Project>
       <Name>WebApp.Service</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201510281140339_PlanBeginDate.resx">
+      <DependentUpon>201510281140339_PlanBeginDate.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

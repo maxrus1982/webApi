@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace WebApp.DAL
+namespace WebApp.Core
 {
     /// <summary>
     /// Аттрибут для ProjectionHelper-а, указывает путь до свойства вложенных объектов через точку    

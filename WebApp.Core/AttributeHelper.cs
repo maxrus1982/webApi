@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 
-namespace WebApp.DAL
+namespace WebApp.Core
 {
     public static class AttributeHelper
     {

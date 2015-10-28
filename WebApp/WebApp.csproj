@@ -181,6 +181,10 @@
     <Content Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\WebApp.Core\WebApp.Core.csproj">
+      <Project>{ed2dfb85-aef5-48e1-b54d-30eb578fadb9}</Project>
+      <Name>WebApp.Core</Name>
+    </ProjectReference>
     <ProjectReference Include="..\WebApp.DAL\WebApp.DAL.csproj">
       <Project>{e413e780-c894-4b7c-b616-e077b1385e11}</Project>
       <Name>WebApp.DAL</Name>

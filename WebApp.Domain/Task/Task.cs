@@ -12,6 +12,8 @@ namespace WebApp.Domain
         public virtual DateTime CreateDate { get; set; }
         public virtual DateTime? BeginDate { get; set; }
         public virtual DateTime? EndDate { get; set; }
+        public virtual DateTime PlanBeginDate { get; set; }
+        public virtual DateTime PlanEndDate { get; set; }
         public virtual Boolean IsCompleted { get; set; }
     }
 }

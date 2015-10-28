@@ -45,6 +45,10 @@
     <Compile Include="Request.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\WebApp.Core\WebApp.Core.csproj">
+      <Project>{ed2dfb85-aef5-48e1-b54d-30eb578fadb9}</Project>
+      <Name>WebApp.Core</Name>
+    </ProjectReference>
     <ProjectReference Include="..\WebApp.Domain.Interface\WebApp.Domain.Interface.csproj">
       <Project>{8bb216c9-bd7a-4529-be3a-619bc6dc25d7}</Project>
       <Name>WebApp.Domain.Interface</Name>
