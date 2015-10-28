@@ -8,9 +8,9 @@ using WebApp.Service;
 using WebApp.Domain.Interface;
 using WebApp.Core;
 
-namespace WebApp.Api.Base
+namespace WebApp.Api
 {
-    [RoutePrefix(AreaConsts.ApiArea + "/BaseDocumentApiController")]
+    [RoutePrefix(AreaConsts.ApiArea + "/BaseDocument")]
     [ResourceAccessType(AccessType.Search)]
     public abstract class BaseDocumentApiController<TDocument, TDocumentDTO, TRequest, TCreateDocumentRequest, TRepository, TValidator> : BaseListApiController<TDocumentDTO, TRequest, TRepository>
         where TDocument : class, IDocument, new()

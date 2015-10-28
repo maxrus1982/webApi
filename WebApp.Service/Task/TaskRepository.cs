@@ -6,6 +6,7 @@ using System.Text;
 using WebApp.Domain;
 using WebApp.Domain.Interface;
 using WebApp.Service.Interface;
+using WebApp.Core;
 
 namespace WebApp.Service
 {
@@ -17,13 +18,18 @@ namespace WebApp.Service
 
         }
 
+        protected override IQueryable<Task> BaseQuery()
+        {
+            var __expr = base.BaseQuery();
+            return __expr.Where(x => x.User == this.UserContext.UserID);
+        }
+
         protected override void BeforeSaveDocument(Task document, TaskDTO documentDTO, bool isNew)
         {
             base.BeforeSaveDocument(document, documentDTO, isNew);
             if (isNew)
             {
-                if (UserContext != null)
-                    document.User = UserContext.UserID;
+                document.User = UserContext.UserID;
             }
             document.Name = documentDTO.Name;
             document.CreateDate = documentDTO.CreateDate;

@@ -141,9 +141,11 @@
     <Compile Include="Api\Base\BaseListApiController.cs" />
     <Compile Include="Api\Base\IResourceApiAcontroller.cs" />
     <Compile Include="Api\Base\ResourceAccessTypeAttribute.cs" />
+    <Compile Include="Api\TaskApiController.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="AreaConsts.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Global.asax.cs">

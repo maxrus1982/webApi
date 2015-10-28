@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace WebApp.Api.Base
+namespace WebApp.Api
 {
     public interface IResourceApiAcontroller
     {

@@ -7,7 +7,7 @@ using System.Web.Http.Filters;
 
 using WebApp.Core;
 
-namespace WebApp.Api.Base
+namespace WebApp.Api
 {
     public class ResourceAccessTypeAttribute : ActionFilterAttribute
     {

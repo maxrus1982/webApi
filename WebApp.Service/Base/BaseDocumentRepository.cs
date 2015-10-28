@@ -17,13 +17,14 @@ namespace WebApp.Service
         where TRequest : Request, new()
         where TCreateDocumentRequest : CreateDocumentRequest, new()
     {
-        public BaseDocumentRepository(BaseContext context)
-            : base(context)
+        public BaseDocumentRepository(BaseContext dbContext)
+            : base(dbContext)
         {
 
         }
 
-        //TO OVERRIDE
+        //TO OVERRIDE        
+
         protected virtual IQueryable<TDocument> BaseQuery()
         {
             return DbContext.Query<TDocument>();
@@ -38,6 +39,10 @@ namespace WebApp.Service
         {
             var __queryExpr = BaseQuery();
             __queryExpr = this.Where(__queryExpr, request);
+            if (request.Sort == null || request.Sort.Count == 0)
+            {
+                __queryExpr = __queryExpr.OrderBy(x => x.ID);
+            }
 
             var __result = __queryExpr.Map<TDocument, TDocumentDTO>();
             __result = FilteringService.ByRequest<TDocumentDTO, TRequest>(__result, request);
@@ -71,8 +76,11 @@ namespace WebApp.Service
             if (documentID == Guid.Empty)
                 return default(TDocumentDTO);
             var __documentDTO = this.BaseQuery().Where(o => o.ID == documentID).Map<TDocument, TDocumentDTO>().FirstOrDefault();
-            OnGetDocument(__documentDTO, null);
-            this.OnGetDocumentList(new List<TDocumentDTO> { __documentDTO }, null);
+            if (__documentDTO != null)
+            {
+                this.OnGetDocument(__documentDTO, null);
+                this.OnGetDocumentList(new List<TDocumentDTO> { __documentDTO }, null);
+            }
             return __documentDTO;
         }
 

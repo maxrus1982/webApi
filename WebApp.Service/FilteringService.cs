@@ -15,7 +15,7 @@ namespace WebApp.Service
     public static class FilteringService
     {
         public static IQueryable<TDocumentDTO> ByRequest<TDocumentDTO, TRequest>(IQueryable<TDocumentDTO> expr, TRequest request)
-            where TDocumentDTO : new()
+            where TDocumentDTO : IDocumentDTO, new()
             where TRequest : Request
         {
             var __isFinalized = false;
@@ -47,9 +47,12 @@ namespace WebApp.Service
             if (HasSortWithProjectionIgnore<TDocumentDTO>(request.Sort) && !__isFinalized)
                 expr = expr.ToList().AsQueryable();
 
-            expr = request.Sort
-                .Where(sortDescriptor => request.Sort.Count(x => x.Member != sortDescriptor.Member) == 0 && !String.IsNullOrWhiteSpace(sortDescriptor.Field))
-                .Aggregate(expr, (current, sortDescriptor) => OrderByRequest(current, sortDescriptor, sortDescriptor == request.Sort.First()));
+            if (request.Sort != null && request.Sort.Count>0)
+            {
+                expr = request.Sort
+                   .Where(sortDescriptor => request.Sort.Count(x => x.Member != sortDescriptor.Member) == 0 && !String.IsNullOrWhiteSpace(sortDescriptor.Field))
+                   .Aggregate(expr, (current, sortDescriptor) => OrderByRequest(current, sortDescriptor, sortDescriptor == request.Sort.First()));
+            }
 
             request.TotalRows = expr.Count();
             expr = expr.Skip(request.Take * (request.Page - 1)).Take(request.Take);

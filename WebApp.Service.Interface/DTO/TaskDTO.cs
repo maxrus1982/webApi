@@ -11,6 +11,8 @@ using WebApp.Core;
 
 namespace WebApp.Service.Interface
 {
+    [DataContract]
+    [JsonObject(MemberSerialization.OptOut)]
     public class TaskDTO : BaseDocumentDTO
     {
         //автомаппинг

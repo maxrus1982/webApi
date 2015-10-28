@@ -16,11 +16,11 @@ namespace WebApp.Service
         where TRequest : Request, new()
     {
         protected virtual BaseContext DbContext { get; set; }
-        protected virtual UserContext UserContext { get; set; }
+        public virtual UserContext UserContext { get; set; }
 
-        public BaseListRepository(BaseContext context)
+        public BaseListRepository(BaseContext dbContext)
         {
-            DbContext = context;
+            DbContext = dbContext;
         }
 
         public virtual IList<TDocumentDTO> GetList(TRequest request)

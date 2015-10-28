@@ -8,9 +8,9 @@ using WebApp.Service.Interface;
 using WebApp.Service;
 using WebApp.Core;
 
-namespace WebApp.Api.Base
+namespace WebApp.Api
 {
-    [RoutePrefix(AreaConsts.ApiArea + "/BaseListApiController")]
+    [RoutePrefix(AreaConsts.ApiArea + "/BaseList")]
     [ResourceAccessType(AccessType.Search)]
     public abstract class BaseListApiController<TDocumentDTO, TRequest, TRepository> : ApiController
         where TDocumentDTO : class, IDocumentDTO, new()
@@ -23,6 +23,10 @@ namespace WebApp.Api.Base
         public BaseListApiController()
         {
             Repository = new TRepository();
+            Repository.UserContext = new UserContext();
+            Repository.UserContext.UserID = this.User.Identity.Name;
+            if (String.IsNullOrWhiteSpace(Repository.UserContext.UserID))
+                Repository.UserContext.UserID = "Foo";
         }
 
         [HttpPost]

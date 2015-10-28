@@ -8,12 +8,7 @@ using WebApp.Service.Interface;
 
 namespace WebApp.Service
 {
-    public class TaskRequest : Request
-    {
-        
-    }
-
-    public class CreateTaskRequest : CreateDocumentRequest
+    public class TaskValidator : BaseDocumentValidator<TaskDTO>
     {
 
     }

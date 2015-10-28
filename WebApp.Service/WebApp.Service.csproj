@@ -72,6 +72,7 @@
     <Compile Include="Task\TaskRequest.cs" />
     <Compile Include="Task\TaskRepository.cs" />
     <Compile Include="Validators\Base\BaseDocumentValidator.cs" />
+    <Compile Include="Validators\TaskValidator.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\WebApp.Core\WebApp.Core.csproj">
