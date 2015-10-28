@@ -39,6 +39,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AccessType.cs" />
     <Compile Include="AttributeHelper.cs" />
     <Compile Include="ProjectionAttribute.cs" />
     <Compile Include="ProjectionHelper.cs" />
