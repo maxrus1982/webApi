@@ -34,21 +34,19 @@ namespace WebApp.Service.Interface
         }
     }
 
+    //базовый запрос от клиента
     public class Request : BaseRequest
     {
-
-        public bool ShowClosed { get; set; }
-        public DateTime? BeginDate { get; set; }
-        public DateTime? EndDate { get; set; }
         public Guid? ID { get; set; }
         public SearchData SearchData { get; set; }
 
         public Request()
         {
-            ShowClosed = false;
+
         }
     }
 
+    //базовый ответ клиенту
     public class Response
     {
         public object Data { get; set; }

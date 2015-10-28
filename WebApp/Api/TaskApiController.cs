@@ -13,18 +13,10 @@ using WebApp.Service.Interface;
 
 namespace WebApp.Api
 {
-    [RoutePrefix(AreaConsts.ApiArea + "/Task")]
-    [ResourceAccessType(AccessType.Search)]
-    public class TaskApiController : BaseDocumentApiController<Task, TaskDTO, TaskRequest, CreateTaskRequest, TaskRepository, TaskValidator>
+    [RoutePrefix(AreaConsts.ApiArea + "/Task")] // URL
+    [ResourceAccessType(AccessType.Search)] //мин уровень доступа
+    public class TaskApiController : BaseDocumentApiController<Task, TaskDTO, TaskRequest, CreateTaskRequest, TaskRepository, TaskValidator> //БО, DTO, Клиентский запрос, Клиентский запрос для нового документа, репозиторий, валидатор
     {
-        public override string ResourceID { get { return "Foo"; } }
-
-        [HttpGet]
-        [Route("Foo")]
-        [ResourceAccessType(AccessType.View)]
-        public TaskDTO Foo()
-        {
-            return new TaskDTO() { Name = "Foo" };
-        }
+        public override string ResourceID { get { return "Foo"; } } //определяет ресурс для контроля доступа
     }
 }

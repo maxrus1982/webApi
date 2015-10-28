@@ -11,6 +11,7 @@ using WebApp.Core;
 
 namespace WebApp.Service
 {
+    //базовый репозиторий для полного REST по документу
     public abstract class BaseDocumentRepository<TDocument, TDocumentDTO, TRequest, TCreateDocumentRequest> : BaseListRepository<TDocumentDTO, TRequest>
         where TDocument : class, IDocument, new()
         where TDocumentDTO : class, IDocumentDTO, new()
@@ -23,8 +24,66 @@ namespace WebApp.Service
 
         }
 
-        //TO OVERRIDE        
+        //REST
+        public override IList<TDocumentDTO> GetList(TRequest request)
+        {
+            var __result = base.GetList(request);
+            __result.ForEach(x =>
+            {
+                this.OnGetDocument(x, request);
+            });
+            return __result;
+        }
 
+        public virtual TDocumentDTO Get(Guid documentID)
+        {
+            if (documentID == Guid.Empty)
+                return default(TDocumentDTO);
+            var __documentDTO = this.BaseQuery().Where(o => o.ID == documentID).Map<TDocument, TDocumentDTO>().FirstOrDefault();
+            if (__documentDTO != null)
+            {
+                this.OnGetDocument(__documentDTO, null);
+                this.OnGetDocumentList(new List<TDocumentDTO> { __documentDTO }, null);
+            }
+            return __documentDTO;
+        }
+
+        public virtual TDocumentDTO New(TCreateDocumentRequest request)
+        {
+            var __documentDTO = new TDocumentDTO();
+            OnNewDocument(__documentDTO, request);
+            return __documentDTO;
+        }
+
+        public virtual TDocumentDTO Post(TDocumentDTO documentDTO)
+        {
+            if (documentDTO == null) return null;
+            TDocument __document = this.BaseQuery().Where(x => x.ID == documentDTO.ID).FirstOrDefault();
+            bool __isNewRecord = __document == null;
+            if (__isNewRecord)
+            {
+                __document = new TDocument()
+                {
+                    ID = documentDTO.ID
+                };
+            }
+            BeforeSaveDocument(__document, documentDTO, __isNewRecord);
+            __document = __isNewRecord ? DbContext.Set<TDocument>().Add(__document) : null;
+            AfterSaveDocument(__document, documentDTO, __isNewRecord);
+            return this.Get(__document.ID);
+        }
+
+        public virtual bool Remove(Guid documentID)
+        {
+            var __doc = this.GetByID(documentID);
+            var __docDTO = Get(documentID);
+            BeforeDeleteDocument(__doc, __docDTO);
+            DbContext.Set<TDocument>().Remove(__doc);
+            AfterDeleteDocument(__doc, __docDTO);
+            return true;
+        }
+
+        //to be override
         protected virtual IQueryable<TDocument> BaseQuery()
         {
             return DbContext.Query<TDocument>();
@@ -59,64 +118,7 @@ namespace WebApp.Service
                     __result = __result.Where(x => x.ID == request.ID.Value);
             }
             return __result;
-        }
-
-        //REST API
-        public override IList<TDocumentDTO> GetList(TRequest request)
-        {
-            var __result = base.GetList(request);
-            __result.ForEach(x => {
-                this.OnGetDocument(x, request);
-            });
-            return __result;
-        }
-
-        public virtual TDocumentDTO Get(Guid documentID)
-        {
-            if (documentID == Guid.Empty)
-                return default(TDocumentDTO);
-            var __documentDTO = this.BaseQuery().Where(o => o.ID == documentID).Map<TDocument, TDocumentDTO>().FirstOrDefault();
-            if (__documentDTO != null)
-            {
-                this.OnGetDocument(__documentDTO, null);
-                this.OnGetDocumentList(new List<TDocumentDTO> { __documentDTO }, null);
-            }
-            return __documentDTO;
-        }
-
-        public virtual TDocumentDTO New(TCreateDocumentRequest request)
-        {
-            var __documentDTO = new TDocumentDTO();
-            OnNewDocument(__documentDTO, request);
-            return __documentDTO;
-        }
-
-        public virtual TDocumentDTO Post(TDocumentDTO documentDTO)
-        {
-            if (documentDTO == null) return null;
-            TDocument __document = this.BaseQuery().Where(x => x.ID == documentDTO.ID).FirstOrDefault();
-            bool __isNewRecord = __document == null;
-            if (__isNewRecord)
-            {
-                __document = new TDocument() {
-                    ID = documentDTO.ID
-                };
-            }
-            BeforeSaveDocument(__document, documentDTO, __isNewRecord);
-            __document = __isNewRecord ? DbContext.Set<TDocument>().Add(__document) : null;
-            AfterSaveDocument(__document, documentDTO, __isNewRecord);
-            return this.Get(__document.ID);
-        }
-
-        public virtual bool Remove(Guid documentID)
-        {
-            var __doc = this.GetByID(documentID);
-            var __docDTO = Get(documentID);
-            BeforeDeleteDocument(__doc, __docDTO);
-            DbContext.Set<TDocument>().Remove(__doc);
-            AfterDeleteDocument(__doc, __docDTO);
-            return true;
-        }
+        }        
 
         //HANDLERS
         protected virtual void OnGetDocument(TDocumentDTO documentDTO, TRequest request)

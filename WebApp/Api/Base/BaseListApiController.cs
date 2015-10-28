@@ -10,6 +10,7 @@ using WebApp.Core;
 
 namespace WebApp.Api
 {
+    //базовый API-контроллер для списка
     [RoutePrefix(AreaConsts.ApiArea + "/BaseList")]
     [ResourceAccessType(AccessType.Search)]
     public abstract class BaseListApiController<TDocumentDTO, TRequest, TRepository> : ApiController
