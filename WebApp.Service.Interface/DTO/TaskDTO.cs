@@ -3,15 +3,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Configuration;
+using System.Runtime.Serialization;
+using Newtonsoft.Json;
 
 using WebApp.Core;
 
 namespace WebApp.Service.Interface
 {
-    public class TaskDTO : IDocumentDTO
+    public class TaskDTO : BaseDocumentDTO
     {
         //автомаппинг
-        public virtual Guid ID { get; set; }
         public virtual String User { get; set; }
         public virtual String Name { get; set; }
         public virtual DateTime CreateDate { get; set; }
