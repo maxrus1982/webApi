@@ -11,7 +11,9 @@ using WebApp.Core;
 
 namespace WebApp.Service
 {
-    //базовый репозиторий для простого списка
+    /// <summary>
+    /// базовый репозиторий для простого списка
+    /// </summary>
     public abstract class BaseListRepository<TDocumentDTO, TRequest> : IDisposable
         where TDocumentDTO : class, IDocumentDTO, new()
         where TRequest : class, IRequest, new()

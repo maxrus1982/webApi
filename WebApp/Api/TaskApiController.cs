@@ -14,6 +14,9 @@ using WebApp.Service.TaskRequests;
 
 namespace WebApp.Api
 {
+    /// <summary>
+    /// ApiController задач
+    /// </summary>
     [RoutePrefix(AreaConsts.ApiArea + "/Task")]
     [ResourceAccessType(AccessType.Search)]
     public class TaskApiController : BaseDocumentApiController<Task, TaskDTO, TaskRequest, CreateTaskRequest, TaskRepository, TaskValidator>

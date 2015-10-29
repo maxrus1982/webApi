@@ -11,7 +11,9 @@ using WebApp.Core;
 
 namespace WebApp.Service
 {
-    //базовый репозиторий для полного REST по документу
+    /// <summary>
+    /// базовый репозиторий для полного REST по документу
+    /// </summary>
     public abstract class BaseDocumentRepository<TDocument, TDocumentDTO, TRequest, TCreateDocumentRequest> : BaseListRepository<TDocumentDTO, TRequest>
         where TDocument : class, IDocument, new()
         where TDocumentDTO : class, IDocumentDTO, new()

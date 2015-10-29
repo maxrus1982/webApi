@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace WebApp.Domain.Interface
 {
+    /// <summary>
+    /// Entity Document
+    /// </summary>
     public interface IDocument
     {
         Guid ID { get; set; }

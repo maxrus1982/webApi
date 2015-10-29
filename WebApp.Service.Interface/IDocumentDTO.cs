@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace WebApp.Service.Interface
 {
+    //DTO
     public interface IDocumentDTO
     {
         Guid ID { get; set; }

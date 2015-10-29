@@ -17,6 +17,9 @@ namespace WebApp.Service.Interface
         Int32 TotalRows { get; set; }
     }
 
+    /// <summary>
+    /// Запрос от клиента
+    /// </summary>
     public interface IRequest : IBaseRequest
     {
         Guid? ID { get; set; }
@@ -85,6 +88,9 @@ namespace WebApp.Service.Interface
         }
     }
 
+    /// <summary>
+    /// запрос от клиента на новый документ, для получения заготовки нового документа
+    /// </summary>
     public interface ICreateDocumentRequest
     {
 

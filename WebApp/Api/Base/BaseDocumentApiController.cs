@@ -10,6 +10,9 @@ using WebApp.Core;
 
 namespace WebApp.Api
 {
+    /// <summary>
+    /// Базовы ApiController для реализации REST по документу
+    /// </summary>
     [RoutePrefix(AreaConsts.ApiArea + "/BaseDocument")]
     [ResourceAccessType(AccessType.Search)]
     public abstract class BaseDocumentApiController<TDocument, TDocumentDTO, TRequest, TCreateDocumentRequest, TRepository, TValidator> : BaseListApiController<TDocumentDTO, TRequest, TRepository>
