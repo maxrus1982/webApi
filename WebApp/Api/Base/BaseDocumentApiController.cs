@@ -68,7 +68,7 @@ namespace WebApp.Api
             var __response = new Response() {
                 Success = __resultOper
             }; ;
-            return OkResult(__response);
+            return OkResultR(__response);
         }
     }
 }

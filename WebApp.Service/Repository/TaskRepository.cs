@@ -14,6 +14,27 @@ namespace WebApp.Service
 {
     public class TaskRepository : BaseDocumentRepository<Task, TaskDTO, TaskRequest, CreateTaskRequest>
     {
+        public IList<TaskGroupDTO> GetTaskGroupList(TaskRequest request)
+        {
+            request.Page = 1;
+            request.Skip = 0;
+            request.Take = Int32.MaxValue;
+            var __rawList = this.GetList(request);
+            if (__rawList.Count>0)
+            {
+                var __result = __rawList
+                .GroupBy(x => new { State = x.State })
+                .Select(x => new TaskGroupDTO() {
+                    State = x.Key.State,
+                    TasksCount = x.Count(),
+                    TasksPercent = Math.Round((decimal)x.Count() * 100 / __rawList.Count(), 2)
+                })
+                .ToList();
+                return __result;
+            }
+            return new List<TaskGroupDTO>();
+        }
+
         protected override IQueryable<Task> BaseQuery()
         {
             var __expr = base.BaseQuery();
@@ -24,7 +45,7 @@ namespace WebApp.Service
         {
             var __expr = base.Where(expr, request);
             if (request.IngnoreCompletedTasks)
-                __expr = __expr.Where(x => x.IsCompleted == false);
+                __expr = __expr.Where(x => x.Completed == false);
             return __expr;
         }
 
@@ -41,7 +62,7 @@ namespace WebApp.Service
             document.EndDate = documentDTO.EndDate;
             document.PlanBeginDate = documentDTO.PlanBeginDate;
             document.PlanEndDate = documentDTO.PlanEndDate;
-            document.IsCompleted = documentDTO.IsCompleted;
+            document.Completed = documentDTO.Completed;
         }
 
         protected override void OnNewDocument(TaskDTO documentDTO, CreateTaskRequest request)
@@ -54,7 +75,20 @@ namespace WebApp.Service
         protected override void OnGetDocument(TaskDTO documentDTO, TaskRequest request)
         {
             base.OnGetDocument(documentDTO, request);
-            documentDTO.IsOverdue = documentDTO.IsCompleted && documentDTO.PlanEndDate < DateTime.Now;
+            documentDTO.TodayTask = !documentDTO.Completed && documentDTO.PlanEndDate.Date == DateTime.Now.Date;
+            documentDTO.LaterTask = !documentDTO.Completed && documentDTO.PlanEndDate.Date > DateTime.Now.Date;
+            documentDTO.OverdueTask = !documentDTO.Completed && documentDTO.PlanEndDate.Date < DateTime.Now.Date;
+
+            if (documentDTO.Completed)
+                documentDTO.State = TaskStateEnum.Completed;
+            else if (documentDTO.TodayTask)
+                documentDTO.State = TaskStateEnum.Today;
+            else if (documentDTO.LaterTask)
+                documentDTO.State = TaskStateEnum.Later;
+            else if (documentDTO.OverdueTask)
+                documentDTO.State = TaskStateEnum.Overdue;
+            else
+                documentDTO.State = TaskStateEnum.None;
         }
     }
 }

@@ -85,6 +85,10 @@
     <Compile Include="Migrations\201510291019051_Task.Designer.cs">
       <DependentUpon>201510291019051_Task.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201510292031130_Rename.cs" />
+    <Compile Include="Migrations\201510292031130_Rename.Designer.cs">
+      <DependentUpon>201510292031130_Rename.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -121,6 +125,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201510291019051_Task.resx">
       <DependentUpon>201510291019051_Task.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201510292031130_Rename.resx">
+      <DependentUpon>201510292031130_Rename.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

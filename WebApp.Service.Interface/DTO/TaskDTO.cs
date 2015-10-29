@@ -23,10 +23,27 @@ namespace WebApp.Service.Interface
         public virtual DateTime? EndDate { get; set; }
         public virtual DateTime PlanBeginDate { get; set; }
         public virtual DateTime PlanEndDate { get; set; }
-        public virtual Boolean IsCompleted { get; set; }
+        public virtual Boolean Completed { get; set; }
 
-        //расчетное поле
         [ProjectionIgnore]
-        public virtual Boolean IsOverdue { get; set; }
+        public virtual Boolean TodayTask { get; set; }
+
+        [ProjectionIgnore]
+        public virtual Boolean LaterTask { get; set; }
+
+        [ProjectionIgnore]
+        public virtual Boolean OverdueTask { get; set; }
+
+        [ProjectionIgnore]
+        public virtual TaskStateEnum State { get; set; }
+    }
+
+    public enum TaskStateEnum
+    {
+        None = 0,
+        Completed = 1,
+        Today = 2,
+        Later = 3,
+        Overdue = 4
     }
 }

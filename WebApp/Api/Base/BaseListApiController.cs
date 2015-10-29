@@ -41,7 +41,7 @@ namespace WebApp.Api
         [HttpPost]
         [Route("GetList")]
         [ResourceAccessType(AccessType.View)]
-        public virtual Response GetList(TRequest request)
+        public virtual IHttpActionResult GetList(TRequest request)
         {
             if (request == null)
                 request = new TRequest();
@@ -51,7 +51,7 @@ namespace WebApp.Api
                 Data = __data,
                 Total = request.TotalRows
             };
-            return __result;
+            return OkResultR(__result); ;
         }
 
         [HttpPost]
@@ -83,7 +83,7 @@ namespace WebApp.Api
             return this.Content<Response>(HttpStatusCode.OK, __response);
         }
 
-        public IHttpActionResult OkResult(Response response)
+        public IHttpActionResult OkResultR(Response response)
         {
             return this.Content<Response>(HttpStatusCode.OK, response);
         }

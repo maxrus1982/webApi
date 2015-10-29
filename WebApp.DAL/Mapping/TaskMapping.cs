@@ -15,7 +15,7 @@ namespace WebApp.DAL.Mapping
             Property(p => p.CreateDate);
             Property(p => p.BeginDate);
             Property(p => p.EndDate);
-            Property(p => p.IsCompleted);
+            Property(p => p.Completed);
         }
     }
 }

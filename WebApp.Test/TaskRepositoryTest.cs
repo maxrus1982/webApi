@@ -34,7 +34,7 @@ namespace WebApp.Test
             var __userContext = new MockUserContext();
             __userContext.UserID = "Foo";
             return __userContext;
-        }
+        }        
 
         [TestMethod]
         public void TasksListPassed()
@@ -103,7 +103,16 @@ namespace WebApp.Test
             __request.Filter.Filters.Add(new Filter() { Field = "Name", Operator = "contains", Value = "FilterText" });
             __dataList = Repository.GetList(__request);
             Assert.IsNotNull(__dataList);
-        }        
+        }
+
+        [TestMethod]
+        public void TaskGroupListPassed()
+        {
+            //простой список
+            var __request = new TaskRequest();
+            var __dataList = Repository.GetTaskGroupList(__request);
+            Assert.IsNotNull(__dataList);
+        }
 
         [TestMethod]
         public void TaskPassed()
@@ -168,6 +177,158 @@ namespace WebApp.Test
             __documentDTO = Repository.Post(__documentDTO);
             Repository.Remove(__documentDTO.ID);
             Assert.IsNotNull(__documentDTO);
+        }
+
+        protected void AddTask()
+        {
+            var __id = Guid.NewGuid();
+            var __documentDTO = Repository.New(new CreateTaskRequest()
+            {
+                PlanBeginDate = DateTime.Now,
+                PlanEndDate = DateTime.Now.AddDays(100)
+            });
+            __documentDTO.Name = "Foo";
+            __documentDTO = Repository.Post(__documentDTO);
+        }
+
+        [TestMethod]
+        public void TasksAdded()
+        {
+            AddTask();
+            AddTask();
+            AddTask();
+            AddTask();
+            AddTask();
+            AddTask();
+            AddTask();
+            AddTask();
+            AddTask();
+            AddTask();
+            AddTask();
+            AddTask();
+            AddTask();
+            AddTask();
+            AddTask();
+            AddTask();
+            AddTask();
+            AddTask();
+            AddTask();
+            AddTask();
+            AddTask();
+            AddTask();
+            AddTask();
+            AddTask();
+            AddTask();
+            AddTask();
+            AddTask();
+            AddTask();
+            AddTask();
+            AddTask();
+            AddTask();
+            AddTask();
+            AddTask();
+            AddTask();
+            AddTask();
+            AddTask();
+            AddTask();
+            AddTask();
+            AddTask();
+            AddTask();
+            AddTask();
+            AddTask();
+            AddTask();
+            AddTask();
+            AddTask();
+            AddTask();
+            AddTask();
+            AddTask();
+            AddTask();
+            AddTask();
+            AddTask();
+            AddTask();
+            AddTask();
+            AddTask();
+            AddTask();
+            AddTask();
+            AddTask();
+            AddTask();
+            AddTask();
+            AddTask();
+            AddTask();
+            AddTask();
+            AddTask();
+            AddTask();
+            AddTask();
+            AddTask();
+            AddTask();
+            AddTask();
+            AddTask();
+            AddTask();
+            AddTask();
+            AddTask();
+            AddTask();
+            AddTask();
+            AddTask();
+            AddTask();
+            AddTask();
+            AddTask();
+            AddTask();
+            AddTask();
+            AddTask();
+            AddTask();
+            AddTask();
+            AddTask();
+            AddTask();
+            AddTask();
+            AddTask();
+            AddTask();
+            AddTask();
+            AddTask();
+            AddTask();
+            AddTask();
+            AddTask();
+            AddTask();
+            AddTask();
+            AddTask();
+            AddTask();
+            AddTask();
+            AddTask();
+            AddTask();
+            AddTask();
+            AddTask();
+            AddTask();
+            AddTask();
+            AddTask();
+            AddTask();
+            AddTask();
+            AddTask();
+            AddTask();
+            AddTask();
+            AddTask();
+            AddTask();
+            AddTask();
+            AddTask();
+            AddTask();
+            AddTask();
+            AddTask();
+            AddTask();
+            AddTask();
+            AddTask();
+            AddTask();
+            AddTask();
+            AddTask();
+            AddTask();
+            AddTask();
+            AddTask();
+            AddTask();
+            AddTask();
+            AddTask();
+            AddTask();
+            AddTask();
+            AddTask();
+            AddTask();
+            AddTask();
+            AddTask();
         }
     }
 }

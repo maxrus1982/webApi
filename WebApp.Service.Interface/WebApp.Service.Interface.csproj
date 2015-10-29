@@ -73,6 +73,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BaseDocumentDTO.cs" />
+    <Compile Include="DTO\TaskGroupDTO.cs" />
     <Compile Include="DTO\TaskDTO.cs" />
     <Compile Include="IDocumentDTO.cs" />
     <Compile Include="IBaseContext.cs" />
