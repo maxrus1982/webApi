@@ -2,6 +2,14 @@
 using System.Web.Http;
 using System.Net.Http;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Microsoft.Practices.Unity;
+
+using WebApp;
+using WebApp.Core;
+using WebApp.DAL;
+using WebApp.Service;
+using WebApp.Service.Interface;
+using WebApp.DAL.Context;
 
 namespace WebApp.Test
 {
@@ -10,7 +18,8 @@ namespace WebApp.Test
     {
         public TaskRepositoryTest()
         {
-            
+            WebApp.Core.IoC.Container.RegisterType<IBaseContext, MockBaseContext>();
+            WebApp.Core.IoC.Container.RegisterType<ITaskContext, MockTaskContext>();
         }
 
         [TestMethod]

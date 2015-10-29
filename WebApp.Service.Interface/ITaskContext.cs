@@ -10,6 +10,6 @@ namespace WebApp.Service.Interface
 {
     public interface ITaskContext : IBaseContext
     {
-        IQueryable<Task> Tasks { get; set; }
+        
     }
 }

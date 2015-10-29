@@ -11,8 +11,6 @@ namespace WebApp.DAL.Context
 {
     public class TaskContext : BaseContext, ITaskContext
     {
-        public virtual IQueryable<Task> Tasks { get; set; }
-
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);

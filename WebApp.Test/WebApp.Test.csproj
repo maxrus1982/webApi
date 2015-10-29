@@ -136,6 +136,8 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="Contexts\MockTaskContext.cs" />
+    <Compile Include="Contexts\MockBaseContext.cs" />
     <Compile Include="TaskRepositoryTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
