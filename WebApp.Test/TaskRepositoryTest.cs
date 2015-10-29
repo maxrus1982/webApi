@@ -47,6 +47,15 @@ namespace WebApp.Test
             var __dataList = Repository.GetList(__request);
             Assert.IsNotNull(__dataList);
 
+            //простой список
+            __request = new TaskRequest();
+            __request.Page = 1;
+            __request.Skip = 0;
+            __request.Take = 20;
+            __request.IngnoreCompletedTasks = true;
+            __dataList = Repository.GetList(__request);
+            Assert.IsNotNull(__dataList);
+
             //пагинация
             __request = new TaskRequest();
             __request.Page = 2;
@@ -99,31 +108,33 @@ namespace WebApp.Test
         [TestMethod]
         public void TaskPassed()
         {
-
+            var __documentDTO = Repository.Get(Guid.NewGuid());
+            Assert.IsNull(__documentDTO);
         }
 
         [TestMethod]
         public void NewTaskPassed()
         {
-
+            var __documentDTO = Repository.New(new CreateTaskRequest() { PlanBeginDate = DateTime.Now, PlanEndDate = DateTime.Now.AddDays(100) });
+            Assert.IsNotNull(__documentDTO);
         }
 
         [TestMethod]
         public void TaskPosted()
         {
-
+            Assert.IsNotNull(null);
         }
 
         [TestMethod]
         public void NewTaskPosted()
         {
-
+            Assert.IsNotNull(null);
         }
 
         [TestMethod]
         public void RemoveTask()
         {
-
+            Assert.IsNotNull(null);
         }
     }
 }

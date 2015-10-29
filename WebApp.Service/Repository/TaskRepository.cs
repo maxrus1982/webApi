@@ -20,6 +20,14 @@ namespace WebApp.Service
             return __expr.Where(x => x.User == this.UserContext.UserID);
         }
 
+        protected override IQueryable<Task> Where(IQueryable<Task> expr, TaskRequest request)
+        {
+            var __expr = base.Where(expr, request);
+            if (request.IngnoreCompletedTasks)
+                __expr = __expr.Where(x => x.IsCompleted == false);
+            return __expr;
+        }
+
         protected override void BeforeSaveDocument(Task document, TaskDTO documentDTO, bool isNew)
         {
             base.BeforeSaveDocument(document, documentDTO, isNew);
@@ -34,6 +42,13 @@ namespace WebApp.Service
             document.PlanBeginDate = documentDTO.PlanBeginDate;
             document.PlanEndDate = documentDTO.PlanEndDate;
             document.IsCompleted = documentDTO.IsCompleted;
+        }
+
+        protected override void OnNewDocument(TaskDTO documentDTO, CreateTaskRequest request)
+        {
+            base.OnNewDocument(documentDTO, request);
+            documentDTO.PlanBeginDate = request.PlanBeginDate;
+            documentDTO.PlanEndDate = request.PlanEndDate;
         }
 
         protected override void OnGetDocument(TaskDTO documentDTO, TaskRequest request)

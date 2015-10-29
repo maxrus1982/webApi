@@ -10,11 +10,12 @@ namespace WebApp.Service.TaskRequests
 {
     public class TaskRequest : Request
     {
-        
+        public bool IngnoreCompletedTasks { get; set; }
     }
 
     public class CreateTaskRequest : CreateDocumentRequest
     {
-
+        public DateTime PlanBeginDate { get; set; }
+        public DateTime PlanEndDate { get; set; }
     }
 }
