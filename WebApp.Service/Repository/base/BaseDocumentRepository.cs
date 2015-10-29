@@ -57,17 +57,25 @@ namespace WebApp.Service
         public virtual TDocumentDTO Post(TDocumentDTO documentDTO)
         {
             if (documentDTO == null) return null;
-            TDocument __document = this.BaseQuery().Where(x => x.ID == documentDTO.ID).FirstOrDefault();
-            bool __isNewRecord = __document == null;
+
+            TDocument __document = null;
+            bool __isNewRecord = true;
+            if (documentDTO.ID != Guid.Empty)
+            {
+                __document = this.BaseQuery().Where(x => x.ID == documentDTO.ID).FirstOrDefault();
+                __isNewRecord = __document == null;
+            }
+
             if (__isNewRecord)
             {
-                __document = new TDocument()
-                {
+                if (documentDTO.ID == Guid.Empty)
+                    documentDTO.ID = Guid.NewGuid();
+                __document = new TDocument() {
                     ID = documentDTO.ID
                 };
             }
             BeforeSaveDocument(__document, documentDTO, __isNewRecord);
-            __document = __isNewRecord ? DbContext.Add(__document) : null;
+            __document = __isNewRecord ? DbContext.Add(__document) : __document;
             AfterSaveDocument(__document, documentDTO, __isNewRecord);
             DbContext.SaveChanges();
             return this.Get(__document.ID);

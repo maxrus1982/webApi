@@ -115,26 +115,59 @@ namespace WebApp.Test
         [TestMethod]
         public void NewTaskPassed()
         {
-            var __documentDTO = Repository.New(new CreateTaskRequest() { PlanBeginDate = DateTime.Now, PlanEndDate = DateTime.Now.AddDays(100) });
+            var __documentDTO = Repository.New(new CreateTaskRequest() {
+                PlanBeginDate = DateTime.Now,
+                PlanEndDate = DateTime.Now.AddDays(100)
+            });
+            Assert.IsNotNull(__documentDTO);
+        }
+
+        [TestMethod]
+        public void NewTaskPosted()
+        {
+            var __id = Guid.NewGuid();
+            var __documentDTO = Repository.New(new CreateTaskRequest() {
+                PlanBeginDate = DateTime.Now,
+                PlanEndDate = DateTime.Now.AddDays(100)
+            });
+            __documentDTO.Name = "Foo";
+            __documentDTO = Repository.Post(__documentDTO);
+            Repository.Remove(__documentDTO.ID);
             Assert.IsNotNull(__documentDTO);
         }
 
         [TestMethod]
         public void TaskPosted()
         {
-            Assert.IsNotNull(null);
-        }
+            var __id = Guid.NewGuid();
+            var __documentDTO = Repository.New(new CreateTaskRequest()
+            {
+                PlanBeginDate = DateTime.Now,
+                PlanEndDate = DateTime.Now.AddDays(100)
+            });
+            __documentDTO.Name = "Foo";
+            __documentDTO = Repository.Post(__documentDTO);
+            __documentDTO = Repository.Get(__documentDTO.ID);
 
-        [TestMethod]
-        public void NewTaskPosted()
-        {
-            Assert.IsNotNull(null);
+            __documentDTO.Name = "Foo2";
+            __documentDTO = Repository.Post(__documentDTO);
+            Repository.Remove(__documentDTO.ID);
+            Assert.IsNotNull(__documentDTO);
         }
 
         [TestMethod]
         public void RemoveTask()
         {
-            Assert.IsNotNull(null);
+            var __id = Guid.NewGuid();
+            var __documentDTO = Repository.New(new CreateTaskRequest()
+            {
+                PlanBeginDate = DateTime.Now,
+                PlanEndDate = DateTime.Now.AddDays(100)
+            });
+            __documentDTO.Name = "Foo";
+            __documentDTO = Repository.Post(__documentDTO);
+            Repository.Remove(__documentDTO.ID);
+            Assert.IsNotNull(__documentDTO);
         }
     }
 }

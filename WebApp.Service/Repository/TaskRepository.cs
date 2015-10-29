@@ -34,9 +34,9 @@ namespace WebApp.Service
             if (isNew)
             {
                 document.User = UserContext.UserID;
+                document.CreateDate = DateTime.Now;
             }
             document.Name = documentDTO.Name;
-            document.CreateDate = documentDTO.CreateDate;
             document.BeginDate = documentDTO.BeginDate;
             document.EndDate = documentDTO.EndDate;
             document.PlanBeginDate = documentDTO.PlanBeginDate;
