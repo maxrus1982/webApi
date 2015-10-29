@@ -16,7 +16,7 @@ namespace WebApp.Service
     {
         public static IQueryable<TDocumentDTO> ByRequest<TDocumentDTO, TRequest>(IQueryable<TDocumentDTO> expr, TRequest request)
             where TDocumentDTO : IDocumentDTO, new()
-            where TRequest : Request
+            where TRequest : IRequest, new()
         {
             var __isFinalized = false;
 

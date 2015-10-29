@@ -1,14 +1,17 @@
-﻿using System.Data.Entity;
+﻿using System.Linq;
+using System.Data.Entity;
 using System.Data.Entity.ModelConfiguration.Conventions;
 
 using WebApp.Domain;
 using WebApp.DAL.Mapping;
+using WebApp.Domain.Interface;
+using WebApp.Service.Interface;
 
-namespace WebApp.DAL
+namespace WebApp.DAL.Context
 {
-    public class MainContext : BaseContext
+    public class TaskContext : BaseContext, ITaskContext
     {
-        public IDbSet<Task> Tasks { get; set; }
+        public virtual IQueryable<Task> Tasks { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {

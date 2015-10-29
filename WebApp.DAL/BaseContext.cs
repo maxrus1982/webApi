@@ -7,14 +7,26 @@ using WebApp.DAL.Mapping;
 using WebApp.Domain.Interface;
 using WebApp.Service.Interface;
 
-namespace WebApp.DAL
+namespace WebApp.DAL.Context
 {
-    public class BaseContext : DbContext
+    public class BaseContext : DbContext, IBaseContext
     {
         public virtual IQueryable<TDocument> Query<TDocument>()
             where TDocument : class, IDocument, new()
         {
             return this.Set<TDocument>();
+        }
+
+        public virtual TDocument Add<TDocument>(TDocument document)
+            where TDocument : class, IDocument, new()
+        {
+            return this.Set<TDocument>().Add(document);
+        }
+
+        public virtual TDocument Remove<TDocument>(TDocument document)
+            where TDocument : class, IDocument, new()
+        {
+            return this.Set<TDocument>().Remove(document);
         }
     }
 }

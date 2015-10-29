@@ -17,6 +17,12 @@ namespace WebApp.Service.Interface
         Int32 TotalRows { get; set; }
     }
 
+    public interface IRequest : IBaseRequest
+    {
+        Guid? ID { get; set; }
+        SearchData SearchData { get; set; }
+    }
+
     public class BaseRequest : IBaseRequest
     {
         public int Take { get; set; }
@@ -35,7 +41,7 @@ namespace WebApp.Service.Interface
     }
 
     //базовый запрос от клиента
-    public class Request : BaseRequest
+    public class Request : BaseRequest, IRequest
     {
         public Guid? ID { get; set; }
         public SearchData SearchData { get; set; }
@@ -46,8 +52,16 @@ namespace WebApp.Service.Interface
         }
     }
 
+    interface IResponse
+    {
+        object Data { get; set; }
+        System.Collections.Generic.IList<string> ErrorList { get; set; }
+        bool Success { get; set; }
+        long Total { get; set; }
+    }
+
     //базовый ответ клиенту
-    public class Response
+    public class Response : IResponse
     {
         public object Data { get; set; }
         public Int64 Total { get; set; }
@@ -71,7 +85,12 @@ namespace WebApp.Service.Interface
         }
     }
 
-    public abstract class CreateDocumentRequest
+    public interface ICreateDocumentRequest
+    {
+
+    }
+
+    public abstract class CreateDocumentRequest : ICreateDocumentRequest
     {
 
     }

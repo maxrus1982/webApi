@@ -16,8 +16,8 @@ namespace WebApp.Api
     public abstract class BaseDocumentApiController<TDocument, TDocumentDTO, TRequest, TCreateDocumentRequest, TRepository, TValidator> : BaseListApiController<TDocumentDTO, TRequest, TRepository>
         where TDocument : class, IDocument, new()
         where TDocumentDTO : class, IDocumentDTO, new()
-        where TRequest : Request, new()
-        where TCreateDocumentRequest : CreateDocumentRequest, new()
+        where TRequest : class, IRequest, new()
+        where TCreateDocumentRequest : class, ICreateDocumentRequest, new()
         where TRepository : BaseDocumentRepository<TDocument, TDocumentDTO, TRequest, TCreateDocumentRequest>, new()
         where TValidator : BaseDocumentValidator<TDocumentDTO>, new()
     {

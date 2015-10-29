@@ -14,12 +14,12 @@ namespace WebApp.Service
     //базовый репозиторий для простого списка
     public abstract class BaseListRepository<TDocumentDTO, TRequest> : IDisposable
         where TDocumentDTO : class, IDocumentDTO, new()
-        where TRequest : Request, new()
+        where TRequest : class, IRequest, new()
     {
-        protected virtual BaseContext DbContext { get; set; }
+        protected virtual IBaseContext DbContext { get; set; }
         public virtual UserContext UserContext { get; set; }
 
-        public BaseListRepository(BaseContext dbContext)
+        public BaseListRepository(IBaseContext dbContext)
         {
             DbContext = dbContext;
         }

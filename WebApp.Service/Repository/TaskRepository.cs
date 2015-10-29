@@ -2,18 +2,20 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Microsoft.Practices.Unity;
 
 using WebApp.Domain;
 using WebApp.Domain.Interface;
 using WebApp.Service.Interface;
 using WebApp.Core;
+using WebApp.Service.TasRequests;
 
 namespace WebApp.Service
 {
     public class TaskRepository : BaseDocumentRepository<Task, TaskDTO, TaskRequest, CreateTaskRequest>
     {
         public TaskRepository()
-            : base(new DAL.MainContext())
+            : base(WebApp.Core.IoC.Container.Resolve<ITaskContext>())
         {
 
         }

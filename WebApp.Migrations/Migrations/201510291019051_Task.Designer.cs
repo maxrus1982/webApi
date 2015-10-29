@@ -7,13 +7,13 @@ namespace WebApp.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.1.1-30610")]
-    public sealed partial class PlanBeginDate : IMigrationMetadata
+    public sealed partial class Task : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(PlanBeginDate));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(Task));
         
         string IMigrationMetadata.Id
         {
-            get { return "201510281140339_PlanBeginDate"; }
+            get { return "201510291019051_Task"; }
         }
         
         string IMigrationMetadata.Source

@@ -15,7 +15,7 @@ namespace WebApp.Api
     [ResourceAccessType(AccessType.Search)]
     public abstract class BaseListApiController<TDocumentDTO, TRequest, TRepository> : ApiController
         where TDocumentDTO : class, IDocumentDTO, new()
-        where TRequest : Request, new()
+        where TRequest : class, IRequest, new()
         where TRepository : BaseListRepository<TDocumentDTO, TRequest>, new()
     {
         public abstract string ResourceID { get; }

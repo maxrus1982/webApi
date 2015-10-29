@@ -15,10 +15,10 @@ namespace WebApp.Service
     public abstract class BaseDocumentRepository<TDocument, TDocumentDTO, TRequest, TCreateDocumentRequest> : BaseListRepository<TDocumentDTO, TRequest>
         where TDocument : class, IDocument, new()
         where TDocumentDTO : class, IDocumentDTO, new()
-        where TRequest : Request, new()
-        where TCreateDocumentRequest : CreateDocumentRequest, new()
+        where TRequest : class, IRequest, new()
+        where TCreateDocumentRequest : class, ICreateDocumentRequest, new()
     {
-        public BaseDocumentRepository(BaseContext dbContext)
+        public BaseDocumentRepository(IBaseContext dbContext)
             : base(dbContext)
         {
 
@@ -42,8 +42,8 @@ namespace WebApp.Service
             var __documentDTO = this.BaseQuery().Where(o => o.ID == documentID).Map<TDocument, TDocumentDTO>().FirstOrDefault();
             if (__documentDTO != null)
             {
-                this.OnGetDocument(__documentDTO, null);
-                this.OnGetDocumentList(new List<TDocumentDTO> { __documentDTO }, null);
+                this.OnGetDocument(__documentDTO, new TRequest());
+                this.OnGetDocumentList(new List<TDocumentDTO> { __documentDTO }, new TRequest());
             }
             return __documentDTO;
         }
@@ -68,8 +68,9 @@ namespace WebApp.Service
                 };
             }
             BeforeSaveDocument(__document, documentDTO, __isNewRecord);
-            __document = __isNewRecord ? DbContext.Set<TDocument>().Add(__document) : null;
+            __document = __isNewRecord ? DbContext.Add(__document) : null;
             AfterSaveDocument(__document, documentDTO, __isNewRecord);
+            DbContext.SaveChanges();
             return this.Get(__document.ID);
         }
 
@@ -78,8 +79,9 @@ namespace WebApp.Service
             var __doc = this.GetByID(documentID);
             var __docDTO = Get(documentID);
             BeforeDeleteDocument(__doc, __docDTO);
-            DbContext.Set<TDocument>().Remove(__doc);
+            DbContext.Remove(__doc);
             AfterDeleteDocument(__doc, __docDTO);
+            DbContext.SaveChanges();
             return true;
         }
 

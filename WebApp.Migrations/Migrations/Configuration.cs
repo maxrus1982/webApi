@@ -8,14 +8,14 @@ using WebApp.DAL;
 
 namespace WebApp.Migrations
 {
-    internal sealed class Configuration : DbMigrationsConfiguration<MainContext>
+    internal sealed class Configuration : DbMigrationsConfiguration<WebApp.DAL.Context.BaseContext>
     {
         public Configuration()
         {
             AutomaticMigrationsEnabled = false;
         }
 
-        protected override void Seed(MainContext context)
+        protected override void Seed(WebApp.DAL.Context.BaseContext context)
         {
 
         }
