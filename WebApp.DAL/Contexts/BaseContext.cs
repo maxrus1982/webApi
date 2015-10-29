@@ -11,6 +11,12 @@ namespace WebApp.DAL.Context
 {
     public class BaseContext : DbContext, IBaseContext
     {
+        public BaseContext()
+            : base()
+        {
+
+        }
+
         public virtual IQueryable<TDocument> Query<TDocument>()
             where TDocument : class, IDocument, new()
         {

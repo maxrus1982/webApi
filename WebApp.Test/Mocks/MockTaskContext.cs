@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
+using System.Data.Entity;
+using System.Data.Entity.ModelConfiguration.Conventions;
+
 
 using WebApp.Domain;
 using WebApp.DAL.Mapping;
@@ -13,6 +15,10 @@ namespace WebApp.Test
 {
     public class MockTaskContext : MockBaseContext, ITaskContext
     {
-
+        protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+            modelBuilder.Configurations.Add(new TaskMapper());
+        }
     }
 }

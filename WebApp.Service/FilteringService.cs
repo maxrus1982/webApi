@@ -47,12 +47,16 @@ namespace WebApp.Service
             if (HasSortWithProjectionIgnore<TDocumentDTO>(request.Sort) && !__isFinalized)
                 expr = expr.ToList().AsQueryable();
 
-            if (request.Sort != null && request.Sort.Count>0)
+            if (request.Sort == null || request.Sort.Count == 0)
             {
-                expr = request.Sort
-                   .Where(sortDescriptor => request.Sort.Count(x => x.Member != sortDescriptor.Member) == 0 && !String.IsNullOrWhiteSpace(sortDescriptor.Field))
-                   .Aggregate(expr, (current, sortDescriptor) => OrderByRequest(current, sortDescriptor, sortDescriptor == request.Sort.First()));
+                if (request.Sort == null)
+                    request.Sort = new List<Sort>();
+                request.Sort.Add(new Sort() { Field = "ID", Dir = "asc" });
             }
+
+            expr = request.Sort
+                .Where(sortDescriptor => request.Sort.Count(x => x.Member != sortDescriptor.Member) == 0 && !String.IsNullOrWhiteSpace(sortDescriptor.Field))
+                .Aggregate(expr, (current, sortDescriptor) => OrderByRequest(current, sortDescriptor, sortDescriptor == request.Sort.First()));
 
             request.TotalRows = expr.Count();
             expr = expr.Skip(request.Take * (request.Page - 1)).Take(request.Take);

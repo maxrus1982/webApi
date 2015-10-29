@@ -8,18 +8,12 @@ using WebApp.Domain;
 using WebApp.Domain.Interface;
 using WebApp.Service.Interface;
 using WebApp.Core;
-using WebApp.Service.TasRequests;
+using WebApp.Service.TaskRequests;
 
 namespace WebApp.Service
 {
     public class TaskRepository : BaseDocumentRepository<Task, TaskDTO, TaskRequest, CreateTaskRequest>
     {
-        public TaskRepository()
-            : base(WebApp.Core.IoC.Container.Resolve<ITaskContext>())
-        {
-
-        }
-
         protected override IQueryable<Task> BaseQuery()
         {
             var __expr = base.BaseQuery();

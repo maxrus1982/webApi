@@ -74,7 +74,7 @@
     <Compile Include="ProjectionAttribute.cs" />
     <Compile Include="ProjectionHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="UserContext.cs" />
+    <Compile Include="IUserContext.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\WebApp.Domain.Interface\WebApp.Domain.Interface.csproj">

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 using WebApp.Service.Interface;
 
-namespace WebApp.Service.TasRequests
+namespace WebApp.Service.TaskRequests
 {
     public class TaskRequest : Request
     {

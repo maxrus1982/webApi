@@ -4,10 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace WebApp.Core
+using WebApp.Core;
+
+namespace WebApp.Test
 {
-    public class UserContext
+    public class MockUserContext : IUserContext
     {
-        public String UserID { get; set; }
+        public string UserID { get; set; }
     }
 }

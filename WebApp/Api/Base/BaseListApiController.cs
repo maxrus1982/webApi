@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web.Http;
 using System.Net;
+using Microsoft.Practices.Unity;
 
 using WebApp.Service.Interface;
 using WebApp.Service;
@@ -24,10 +25,17 @@ namespace WebApp.Api
         public BaseListApiController()
         {
             Repository = new TRepository();
-            Repository.UserContext = new UserContext();
-            Repository.UserContext.UserID = this.User.Identity.Name;
-            if (String.IsNullOrWhiteSpace(Repository.UserContext.UserID))
-                Repository.UserContext.UserID = "Foo";
+            Repository.DbContext = WebApp.Core.IoC.Container.Resolve<ITaskContext>();
+            Repository.UserContext = this.UserContext();
+        }
+
+        protected IUserContext UserContext()
+        {
+            var __userContext = new UserContext();
+            __userContext.UserID = this.User.Identity.Name;
+            if (String.IsNullOrWhiteSpace(__userContext.UserID))
+                __userContext.UserID = "Foo";
+            return __userContext;
         }
 
         [HttpPost]

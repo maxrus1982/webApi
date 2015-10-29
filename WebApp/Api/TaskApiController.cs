@@ -10,14 +10,14 @@ using WebApp.Domain;
 using WebApp.Domain.Interface;
 using WebApp.Service;
 using WebApp.Service.Interface;
-using WebApp.Service.TasRequests;
+using WebApp.Service.TaskRequests;
 
 namespace WebApp.Api
 {
-    [RoutePrefix(AreaConsts.ApiArea + "/Task")] // URL
-    [ResourceAccessType(AccessType.Search)] //мин уровень доступа
-    public class TaskApiController : BaseDocumentApiController<Task, TaskDTO, TaskRequest, CreateTaskRequest, TaskRepository, TaskValidator> //БО, DTO, Клиентский запрос, Клиентский запрос для нового документа, репозиторий, валидатор
+    [RoutePrefix(AreaConsts.ApiArea + "/Task")]
+    [ResourceAccessType(AccessType.Search)]
+    public class TaskApiController : BaseDocumentApiController<Task, TaskDTO, TaskRequest, CreateTaskRequest, TaskRepository, TaskValidator>
     {
-        public override string ResourceID { get { return "Foo"; } } //определяет ресурс для контроля доступа
+        public override string ResourceID { get { return "Foo"; } }
     }
 }

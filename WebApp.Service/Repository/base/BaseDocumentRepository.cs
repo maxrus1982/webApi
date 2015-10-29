@@ -18,8 +18,8 @@ namespace WebApp.Service
         where TRequest : class, IRequest, new()
         where TCreateDocumentRequest : class, ICreateDocumentRequest, new()
     {
-        public BaseDocumentRepository(IBaseContext dbContext)
-            : base(dbContext)
+        public BaseDocumentRepository()
+            : base()
         {
 
         }
@@ -28,8 +28,7 @@ namespace WebApp.Service
         public override IList<TDocumentDTO> GetList(TRequest request)
         {
             var __result = base.GetList(request);
-            __result.ForEach(x =>
-            {
+            __result.ForEach(x => {
                 this.OnGetDocument(x, request);
             });
             return __result;
@@ -100,14 +99,8 @@ namespace WebApp.Service
         {
             var __queryExpr = BaseQuery();
             __queryExpr = this.Where(__queryExpr, request);
-            if (request.Sort == null || request.Sort.Count == 0)
-            {
-                __queryExpr = __queryExpr.OrderBy(x => x.ID);
-            }
-
             var __result = __queryExpr.Map<TDocument, TDocumentDTO>();
             __result = FilteringService.ByRequest<TDocumentDTO, TRequest>(__result, request);
-
             return __result;
         }
 
