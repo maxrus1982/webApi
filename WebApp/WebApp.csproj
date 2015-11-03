@@ -198,6 +198,7 @@
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\angular.min.js.map" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
+    <Content Include="Scripts\controllers.js" />
     <Content Include="Scripts\cultures\kendo.culture.zh-CN.min.js" />
     <None Include="Scripts\jquery-2.1.4.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
@@ -552,6 +553,10 @@
     <Content Include="styles\Uniform\sprite_2x.png" />
     <Content Include="styles\Uniform\sprite_kpi.png" />
     <Content Include="styles\Uniform\sprite_kpi_2x.png" />
+    <Content Include="styles\app.css" />
+    <Content Include="Scripts\app.js" />
+    <None Include="Views\Home\Index.cshtml" />
+    <Content Include="Scripts\services.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -561,7 +566,6 @@
     </Content>
     <Content Include="Views\Web.config" />
     <Content Include="Views\_ViewStart.cshtml" />
-    <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
   </ItemGroup>

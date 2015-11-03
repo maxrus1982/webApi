@@ -1,7 +1,51 @@
-﻿@{
-    ViewBag.Title = "Home Page";
-}
+﻿<!DOCTYPE html>
+<html lang="en" ng-app="wApp">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta charset="utf-8">
+  <title>Тест webAPI</title>
+  <link rel="stylesheet" href="/styles/app.css">
+  <script src="/Scripts/angular.js"></script>
+  <script src="/Scripts/app.js"></script>
+  <script src="/Scripts/controllers.js"></script>
+  <script src="/Scripts/services.js"></script>
+</head>
+<body ng-controller="wAppCtrl">
+  <div class="content">
 
-<div>
-    <h1>TaskBoard</h1>
-</div>
+      <div class="past-new">
+          <input type="text" ng-model="Name" placeholder="Имя для новой задачи" />
+          <button ng-click="addTask(Name)">Добавить</button>
+      </div>
+
+    <table id="dataTable">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Name</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr ng-repeat="task in Tasks">
+          <td>
+            <input type="text" ng-model="task.ID" ng-blur="taskChanged(task)" ng-change="task.haveChanges = true">
+          </td>
+          
+          <td>
+            <input type="text" ng-model="task.Name" ng-blur="taskChanged(task)" ng-change="task.haveChanges = true"/>  
+          </td>
+
+          <td>
+            <button ng-click="removeTask(task)">X</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <hr/>
+
+  </div>
+
+</body>
+</html>

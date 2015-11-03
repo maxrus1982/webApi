@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Linq;
 using System.Web.Http;
 using System.Net.Http;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Microsoft.Practices.Unity;
+using System.Data.SqlTypes;
 
 using WebApp;
 using WebApp.Core;
@@ -34,75 +36,128 @@ namespace WebApp.Test
             var __userContext = new MockUserContext();
             __userContext.UserID = "Foo";
             return __userContext;
-        }        
+        }
+
+        private void AddTestRows()
+        {
+            for (int i = 1; i <= 200; i++)
+                AddTask("Foo_"+i);
+        }
+
+        private void RemoveAllTestRows()
+        {
+            foreach (var __itemID in Repository.GetList(new TaskRequest()).Select(x => x.ID))
+                Repository.Remove(__itemID);
+        }
 
         [TestMethod]
         public void TasksListPassed()
         {
+            RemoveAllTestRows();
+            AddTestRows();
+
             //простой список
             var __request = new TaskRequest();
             __request.Page = 1;
             __request.Skip = 0;
             __request.Take = 20;
             var __dataList = Repository.GetList(__request);
-            Assert.IsNotNull(__dataList);
+            //размер страницы 20, а общее количество > 20
+            Assert.IsTrue(__dataList.Count > 0 && __dataList.Count == 20 && __request.TotalRows>20);
 
             //простой список
             __request = new TaskRequest();
             __request.Page = 1;
             __request.Skip = 0;
             __request.Take = 20;
-            __request.IngnoreCompletedTasks = true;
+            __request.IngnoreCompletedTasks = true; //!!!
             __dataList = Repository.GetList(__request);
-            Assert.IsNotNull(__dataList);
+            //размер страницы 20, а общее количество > 20, с учетом кастомного фильтра через Request.IngnoreCompletedTasks
+            Assert.IsTrue(__dataList.Count > 0 && __dataList.Count == 20 && __dataList.Where(x => x.State == TaskStateEnum.Completed).Count() == 0);
 
-            //пагинация
+            //пагинация по 21 запись
             __request = new TaskRequest();
-            __request.Page = 2;
-            __request.Skip = 21;
-            __request.Take = 21;
+            __request.Page = 2;//!!!
+            __request.Skip = 21;//!!!
+            __request.Take = 21;//!!!
             __dataList = Repository.GetList(__request);
-            Assert.IsNotNull(__dataList);
+            //вторая страница, по 21 запись
+            Assert.IsTrue(__dataList.Count == 21 && __request.TotalRows > 20);
 
             //кастомный фильтр по ID-у
             __request = new TaskRequest();
             __request.Page = 1;
             __request.Skip = 0;
             __request.Take = 20;
-            __request.ID = Guid.NewGuid();
+            __request.ID = Repository.GetList(new TaskRequest()).Select(x => x.ID).FirstOrDefault();//!!!
             __dataList = Repository.GetList(__request);
-            Assert.IsNotNull(__dataList);
+            //запрос должен вернуть только одну запись
+            Assert.IsTrue(__dataList.Count == 1);
 
-            //search
+            //search none
             __request = new TaskRequest();
             __request.Page = 1;
             __request.Skip = 0;
             __request.Take = 20;
-            __request.SearchData = new SearchData();
-            __request.SearchData.Search = "SearchText";
-            __request.SearchData.Fields.Add("Name");
+            __request.SearchData = new SearchData();//!!!
+            __request.SearchData.Search = "SearchTextZZZZZZZZZZZZZZZZZZ";//!!!
+            __request.SearchData.Fields.Add("Name");//!!!
             __dataList = Repository.GetList(__request);
-            Assert.IsNotNull(__dataList);
+            //запрос не должен вернуть результат
+            Assert.IsTrue(__dataList.Count == 0);
+
+            //search Foo
+            __request = new TaskRequest();
+            __request.Page = 1;
+            __request.Skip = 0;
+            __request.Take = 20;
+            __request.SearchData = new SearchData();//!!!
+            __request.SearchData.Search = "Foo";//!!!
+            __request.SearchData.Fields.Add("Name");//!!!
+            __dataList = Repository.GetList(__request);
+            //запрос должен вернуть результат
+            Assert.IsTrue(__dataList.Count == 20);
 
             //order by
             __request = new TaskRequest();
             __request.Page = 1;
             __request.Skip = 0;
-            __request.Take = 20;
-            __request.Sort.Add(new Sort() { Dir = "desc", Field = "Name" });
-            __dataList = Repository.GetList(__request);
-            Assert.IsNotNull(__dataList);
+            __request.Take = 10000000;
+            __request.Sort.Add(new Sort() { Dir = "desc", Field = "ID" });//!!!
+            __dataList = Repository.GetList(__request); // сортируем на СУБД
+            var __orderedDataList = Repository.GetList(new TaskRequest() { Take = 10000000 }).OrderByDescending(x => new SqlGuid(x.ID)).ToList(); // сортируем в LINQ
+            //результат должен быть отсортирован правильно - опорная точка - первая и последняя запись
+            Assert.IsTrue(
+                __dataList.FirstOrDefault().ID == __orderedDataList.FirstOrDefault().ID &&
+                __dataList.LastOrDefault().ID == __orderedDataList.LastOrDefault().ID
+            );
 
-            //filter
+            //filter none
             __request = new TaskRequest();
             __request.Page = 1;
             __request.Skip = 0;
             __request.Take = 20;
-            __request.Filter = new Filter();
-            __request.Filter.Logic = "and";
-            __request.Filter.Filters.Add(new Filter() { Field = "Name", Operator = "contains", Value = "FilterText" });
+            __request.Filter = new Filter();//!!!
+            __request.Filter.Logic = "and";//!!!
+            __request.Filter.Filters.Add(new Filter() { Field = "Name", Operator = "contains", Value = "FilterTextЧЧЧЧЧЧЧЧЧЧЧЧЧЧЧЧЧЧЧЧЧЧЧ" });//!!!
             __dataList = Repository.GetList(__request);
-            Assert.IsNotNull(__dataList);
+            //запрос не должен вернуть результат
+            Assert.IsTrue(__dataList.Count == 0);
+
+            //filter Foo
+            __request = new TaskRequest();
+            __request.Page = 1;
+            __request.Skip = 0;
+            __request.Take = 20;
+            __request.Filter = new Filter();//!!!
+            __request.Filter.Logic = "and";//!!!
+            __request.Filter.Filters.Add(new Filter() { Field = "Name", Operator = "contains", Value = "Foo" });//!!!
+            __dataList = Repository.GetList(__request);
+            //запрос должен вернуть результат
+            Assert.IsTrue(__dataList.Count == 20);
+            
+            RemoveAllTestRows();
+            AddTestRows();
         }
 
         [TestMethod]
@@ -111,7 +166,8 @@ namespace WebApp.Test
             //простой список
             var __request = new TaskRequest();
             var __dataList = Repository.GetTaskGroupList(__request);
-            Assert.IsNotNull(__dataList);
+            //запрос должен вернуть результат
+            Assert.IsNotNull(__dataList.Count>0);
         }
 
         [TestMethod]
@@ -179,7 +235,7 @@ namespace WebApp.Test
             Assert.IsNotNull(__documentDTO);
         }
 
-        protected void AddTask()
+        protected void AddTask(string name)
         {
             var __id = Guid.NewGuid();
             var __documentDTO = Repository.New(new CreateTaskRequest()
@@ -187,148 +243,8 @@ namespace WebApp.Test
                 PlanBeginDate = DateTime.Now,
                 PlanEndDate = DateTime.Now.AddDays(100)
             });
-            __documentDTO.Name = "Foo";
+            __documentDTO.Name = name;
             __documentDTO = Repository.Post(__documentDTO);
-        }
-
-        [TestMethod]
-        public void TasksAdded()
-        {
-            AddTask();
-            AddTask();
-            AddTask();
-            AddTask();
-            AddTask();
-            AddTask();
-            AddTask();
-            AddTask();
-            AddTask();
-            AddTask();
-            AddTask();
-            AddTask();
-            AddTask();
-            AddTask();
-            AddTask();
-            AddTask();
-            AddTask();
-            AddTask();
-            AddTask();
-            AddTask();
-            AddTask();
-            AddTask();
-            AddTask();
-            AddTask();
-            AddTask();
-            AddTask();
-            AddTask();
-            AddTask();
-            AddTask();
-            AddTask();
-            AddTask();
-            AddTask();
-            AddTask();
-            AddTask();
-            AddTask();
-            AddTask();
-            AddTask();
-            AddTask();
-            AddTask();
-            AddTask();
-            AddTask();
-            AddTask();
-            AddTask();
-            AddTask();
-            AddTask();
-            AddTask();
-            AddTask();
-            AddTask();
-            AddTask();
-            AddTask();
-            AddTask();
-            AddTask();
-            AddTask();
-            AddTask();
-            AddTask();
-            AddTask();
-            AddTask();
-            AddTask();
-            AddTask();
-            AddTask();
-            AddTask();
-            AddTask();
-            AddTask();
-            AddTask();
-            AddTask();
-            AddTask();
-            AddTask();
-            AddTask();
-            AddTask();
-            AddTask();
-            AddTask();
-            AddTask();
-            AddTask();
-            AddTask();
-            AddTask();
-            AddTask();
-            AddTask();
-            AddTask();
-            AddTask();
-            AddTask();
-            AddTask();
-            AddTask();
-            AddTask();
-            AddTask();
-            AddTask();
-            AddTask();
-            AddTask();
-            AddTask();
-            AddTask();
-            AddTask();
-            AddTask();
-            AddTask();
-            AddTask();
-            AddTask();
-            AddTask();
-            AddTask();
-            AddTask();
-            AddTask();
-            AddTask();
-            AddTask();
-            AddTask();
-            AddTask();
-            AddTask();
-            AddTask();
-            AddTask();
-            AddTask();
-            AddTask();
-            AddTask();
-            AddTask();
-            AddTask();
-            AddTask();
-            AddTask();
-            AddTask();
-            AddTask();
-            AddTask();
-            AddTask();
-            AddTask();
-            AddTask();
-            AddTask();
-            AddTask();
-            AddTask();
-            AddTask();
-            AddTask();
-            AddTask();
-            AddTask();
-            AddTask();
-            AddTask();
-            AddTask();
-            AddTask();
-            AddTask();
-            AddTask();
-            AddTask();
-            AddTask();
-            AddTask();
-            AddTask();
         }
     }
 }

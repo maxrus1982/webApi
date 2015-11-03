@@ -1,0 +1,36 @@
+body {
+  background: #ddd;
+  text-align: center;
+  display: table;
+}
+
+.content {
+  display: block;
+  vertical-align: middle;
+  text-align: left;
+  width: 400px;
+  position: absolute;
+  left: 50%;
+  margin-left: -200px;
+  top: 100px;
+}
+
+table {
+  border: 1px solid #aaa;
+  width: 100%;
+}
+
+table th {
+  text-align: center;
+}
+
+.past-new input {
+  display: inline-block;
+  width: 60%;
+}
+
+.past-new button {
+  display: inline-block;
+  width: 38%;
+  float: right;
+}
