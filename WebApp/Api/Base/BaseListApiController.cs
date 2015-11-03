@@ -70,7 +70,7 @@ namespace WebApp.Api
             return __result;
         }
 
-        [HttpGet]
+        [HttpPost]
         [Route("GetAccessType")]
         public virtual AccessTypeResponse GetAccessType()
         {

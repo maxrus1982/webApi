@@ -70,6 +70,7 @@
   <ItemGroup>
     <Compile Include="AccessType.cs" />
     <Compile Include="AttributeHelper.cs" />
+    <Compile Include="EnumUtils.cs" />
     <Compile Include="IoC.cs" />
     <Compile Include="ProjectionAttribute.cs" />
     <Compile Include="ProjectionHelper.cs" />

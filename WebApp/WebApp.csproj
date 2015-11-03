@@ -176,6 +176,7 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="AreaConsts.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\TaskController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -198,7 +199,16 @@
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\angular.min.js.map" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
-    <Content Include="Scripts\controllers.js" />
+    <Content Include="Scripts\Task\GroupedList.js" />
+    <Content Include="Scripts\Task\Typehead.js" />
+    <Content Include="Scripts\Task\SortByName.js" />
+    <Content Include="Scripts\Task\SortByID.js" />
+    <Content Include="Scripts\Task\DynamicFilter.js" />
+    <Content Include="Scripts\Task\StaticFilter.js" />
+    <Content Include="Scripts\Task\controllerPage3.js" />
+    <Content Include="Scripts\Task\controllerPage2.js" />
+    <Content Include="Scripts\Task\controllerPage1.js" />
+    <Content Include="Scripts\Task\controllers.js" />
     <Content Include="Scripts\cultures\kendo.culture.zh-CN.min.js" />
     <None Include="Scripts\jquery-2.1.4.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
@@ -556,7 +566,7 @@
     <Content Include="styles\app.css" />
     <Content Include="Scripts\app.js" />
     <None Include="Views\Home\Index.cshtml" />
-    <Content Include="Scripts\services.js" />
+    <Content Include="Scripts\Task\services.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -568,6 +578,16 @@
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
+    <Content Include="Views\Task\TaskPage1.cshtml" />
+    <Content Include="Views\Task\TaskPage2.cshtml" />
+    <Content Include="Views\Task\Index.cshtml" />
+    <Content Include="Views\Task\TaskPage3.cshtml" />
+    <Content Include="Views\Task\DynamicFilter.cshtml" />
+    <Content Include="Views\Task\SortByID.cshtml" />
+    <Content Include="Views\Task\StaticFilter.cshtml" />
+    <Content Include="Views\Task\Typehead.cshtml" />
+    <Content Include="Views\Task\SortByName.cshtml" />
+    <Content Include="Views\Task\GroupedList.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

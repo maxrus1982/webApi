@@ -1,0 +1,35 @@
+﻿<!DOCTYPE html>
+<html lang="en" ng-app="wApp">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <title>Тест webAPI</title>
+    <link rel="stylesheet" href="/styles/app.css">
+    <script src="/Scripts/angular.js"></script>
+    <script src="/Scripts/app.js"></script>
+    <script src="/Scripts/Task/GroupedList.js"></script>
+    <script src="/Scripts/Task/services.js"></script>
+</head>
+<body ng-controller="GroupedList">
+    <div class="content">
+        <table id="dataTable">
+            <thead>
+                <tr>
+                    <th>Статус</th>
+                    <th>Кол-во задач</th>
+                    <th>% соотношение</th>
+                    
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="task in GroupedTasks">
+                    <td><input type="text" ng-readonly="true" ng-model="task.StateName"></td>
+                    <td><input type="text" ng-readonly="true" ng-model="task.TasksCount" /></td>
+                    <td><input type="text" ng-readonly="true" ng-model="task.TasksPercent" /></td>
+                </tr>
+            </tbody>
+        </table>
+        <hr />
+    </div>
+</body>
+</html>

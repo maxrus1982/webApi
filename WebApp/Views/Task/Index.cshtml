@@ -1,0 +1,44 @@
+﻿<!DOCTYPE html>
+<html lang="en" ng-app="wApp">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <title>Тест webAPI</title>
+    <link rel="stylesheet" href="/styles/app.css">
+    <script src="/Scripts/angular.js"></script>
+    <script src="/Scripts/app.js"></script>
+    <script src="/Scripts/Task/controllers.js"></script>
+    <script src="/Scripts/Task/services.js"></script>
+</head>
+<body ng-controller="wAppCtrl">
+    <div class="content">
+        <div class="past-new">
+            <input type="text" ng-model="Name" placeholder="Имя для новой задачи" />
+            <input type="datetime" ng-model="PlanEndDate" placeholder="Плановая дата завершения" />
+            <button ng-click="addTask(Name, PlanEndDate)">Добавить задачу</button>
+        </div>
+
+        <table id="dataTable">
+            <thead>
+                <tr>
+                    <th>Вып.</th>
+                    <th>Имя задачи</th>
+                    <th>План дата вып.</th>
+                    <th>Статус</th>
+                    <th>Удалить</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="task in Tasks">
+                    <td><input type="checkbox" ng-model="task.Completed" ng-blur="taskChanged(task)" ng-change="task.haveChanges = true" /></td>
+                    <td><input type="text" ng-model="task.Name" ng-blur="taskChanged(task)" ng-change="task.haveChanges = true" /></td>
+                    <td><input type="datetime" ng-model="task.PlanEndDate" ng-blur="taskChanged(task)" ng-change="task.haveChanges = true" /></td>
+                    <td><input type="text" ng-readonly="true" ng-model="task.StateName" /></td>
+                    <td><button ng-click="removeTask(task)">X</button></td>
+                </tr>
+            </tbody>
+        </table>
+        <hr />
+    </div>
+</body>
+</html>

@@ -40,8 +40,10 @@ namespace WebApp.Test
 
         private void AddTestRows()
         {
-            for (int i = 1; i <= 200; i++)
-                AddTask("Foo_"+i);
+            for (int i = 1; i <= 20; i++)
+                AddTask("Foo_"+i, true);
+            for (int i = 1; i <= 20; i++)
+                AddTask("Foo_" + i, false);
         }
 
         private void RemoveAllTestRows()
@@ -60,35 +62,35 @@ namespace WebApp.Test
             var __request = new TaskRequest();
             __request.Page = 1;
             __request.Skip = 0;
-            __request.Take = 20;
+            __request.Take = 10;
             var __dataList = Repository.GetList(__request);
-            //размер страницы 20, а общее количество > 20
-            Assert.IsTrue(__dataList.Count > 0 && __dataList.Count == 20 && __request.TotalRows>20);
+            //размер страницы 20, а общее количество > 10
+            Assert.IsTrue(__dataList.Count > 0 && __dataList.Count == 10 && __request.TotalRows>10);
 
             //простой список
             __request = new TaskRequest();
             __request.Page = 1;
             __request.Skip = 0;
-            __request.Take = 20;
-            __request.IngnoreCompletedTasks = true; //!!!
+            __request.Take = 10;
+            __request.IgnoreCompletedTasks = true; //!!!
             __dataList = Repository.GetList(__request);
-            //размер страницы 20, а общее количество > 20, с учетом кастомного фильтра через Request.IngnoreCompletedTasks
-            Assert.IsTrue(__dataList.Count > 0 && __dataList.Count == 20 && __dataList.Where(x => x.State == TaskStateEnum.Completed).Count() == 0);
+            //размер страницы 10, а общее количество > 10, с учетом кастомного фильтра через Request.IgnoreCompletedTasks
+            Assert.IsTrue(__dataList.Count > 0 && __dataList.Count == 10 && __dataList.Where(x => x.State == TaskStateEnum.Completed).Count() == 0);
 
             //пагинация по 21 запись
             __request = new TaskRequest();
             __request.Page = 2;//!!!
-            __request.Skip = 21;//!!!
-            __request.Take = 21;//!!!
+            __request.Skip = 10;//!!!
+            __request.Take = 10;//!!!
             __dataList = Repository.GetList(__request);
-            //вторая страница, по 21 запись
-            Assert.IsTrue(__dataList.Count == 21 && __request.TotalRows > 20);
+            //вторая страница, по 10 записей
+            Assert.IsTrue(__dataList.Count == 10 && __request.TotalRows > 20);
 
             //кастомный фильтр по ID-у
             __request = new TaskRequest();
             __request.Page = 1;
             __request.Skip = 0;
-            __request.Take = 20;
+            __request.Take = 10;
             __request.ID = Repository.GetList(new TaskRequest()).Select(x => x.ID).FirstOrDefault();//!!!
             __dataList = Repository.GetList(__request);
             //запрос должен вернуть только одну запись
@@ -98,7 +100,7 @@ namespace WebApp.Test
             __request = new TaskRequest();
             __request.Page = 1;
             __request.Skip = 0;
-            __request.Take = 20;
+            __request.Take = 10;
             __request.SearchData = new SearchData();//!!!
             __request.SearchData.Search = "SearchTextZZZZZZZZZZZZZZZZZZ";//!!!
             __request.SearchData.Fields.Add("Name");//!!!
@@ -110,13 +112,13 @@ namespace WebApp.Test
             __request = new TaskRequest();
             __request.Page = 1;
             __request.Skip = 0;
-            __request.Take = 20;
+            __request.Take = 10;
             __request.SearchData = new SearchData();//!!!
             __request.SearchData.Search = "Foo";//!!!
             __request.SearchData.Fields.Add("Name");//!!!
             __dataList = Repository.GetList(__request);
             //запрос должен вернуть результат
-            Assert.IsTrue(__dataList.Count == 20);
+            Assert.IsTrue(__dataList.Count == 10);
 
             //order by
             __request = new TaskRequest();
@@ -136,7 +138,7 @@ namespace WebApp.Test
             __request = new TaskRequest();
             __request.Page = 1;
             __request.Skip = 0;
-            __request.Take = 20;
+            __request.Take = 10;
             __request.Filter = new Filter();//!!!
             __request.Filter.Logic = "and";//!!!
             __request.Filter.Filters.Add(new Filter() { Field = "Name", Operator = "contains", Value = "FilterTextЧЧЧЧЧЧЧЧЧЧЧЧЧЧЧЧЧЧЧЧЧЧЧ" });//!!!
@@ -148,13 +150,13 @@ namespace WebApp.Test
             __request = new TaskRequest();
             __request.Page = 1;
             __request.Skip = 0;
-            __request.Take = 20;
+            __request.Take = 10;
             __request.Filter = new Filter();//!!!
             __request.Filter.Logic = "and";//!!!
             __request.Filter.Filters.Add(new Filter() { Field = "Name", Operator = "contains", Value = "Foo" });//!!!
             __dataList = Repository.GetList(__request);
             //запрос должен вернуть результат
-            Assert.IsTrue(__dataList.Count == 20);
+            Assert.IsTrue(__dataList.Count == 10);
             
             RemoveAllTestRows();
             AddTestRows();
@@ -235,7 +237,7 @@ namespace WebApp.Test
             Assert.IsNotNull(__documentDTO);
         }
 
-        protected void AddTask(string name)
+        protected void AddTask(string name, bool completed)
         {
             var __id = Guid.NewGuid();
             var __documentDTO = Repository.New(new CreateTaskRequest()
@@ -244,6 +246,7 @@ namespace WebApp.Test
                 PlanEndDate = DateTime.Now.AddDays(100)
             });
             __documentDTO.Name = name;
+            __documentDTO.Completed = completed;
             __documentDTO = Repository.Post(__documentDTO);
         }
     }

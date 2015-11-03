@@ -1,0 +1,36 @@
+﻿<!DOCTYPE html>
+<html lang="en" ng-app="wApp">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <title>Тест webAPI</title>
+    <link rel="stylesheet" href="/styles/app.css">
+    <script src="/Scripts/angular.js"></script>
+    <script src="/Scripts/app.js"></script>
+    <script src="/Scripts/Task/controllerPage3.js"></script>
+    <script src="/Scripts/Task/services.js"></script>
+</head>
+<body ng-controller="wAppCtrlPage1">
+    <div class="content">
+        <table id="dataTable">
+            <thead>
+                <tr>
+                    <th>Вып.</th>
+                    <th>Имя задачи</th>
+                    <th>План. дата вып.</th>
+                    <th>Статус</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="task in Tasks">
+                    <td><input type="checkbox" ng-readonly="true" ng-model="task.Completed" /></td>
+                    <td><input type="text" ng-readonly="true" ng-model="task.Name"></td>
+                    <td><input type="datetime" ng-readonly="true" ng-model="task.PlanEndDate" /></td>
+                    <td><input type="text" ng-readonly="true" ng-model="task.StateName" /></td>
+                </tr>
+            </tbody>
+        </table>
+        <hr />
+    </div>
+</body>
+</html>

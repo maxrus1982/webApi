@@ -1,4 +1,6 @@
 ﻿using System;
+using System.ComponentModel;
+using System.Reflection;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -18,5 +20,7 @@ namespace WebApp.Service.Interface
         public virtual TaskStateEnum State { get; set; }
         public virtual Int64 TasksCount { get; set; }
         public virtual Decimal TasksPercent { get; set; }
+
+        public virtual String StateName { get { return EnumUtils<TaskStateEnum>.GetDescription(this.State); } }
     }    
 }

@@ -10,7 +10,7 @@ namespace WebApp.Service.TaskRequests
 {
     public class TaskRequest : Request
     {
-        public bool IngnoreCompletedTasks { get; set; }
+        public bool IgnoreCompletedTasks { get; set; }
     }
 
     public class CreateTaskRequest : CreateDocumentRequest

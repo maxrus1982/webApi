@@ -51,7 +51,7 @@ namespace WebApp.Service
             {
                 if (request.Sort == null)
                     request.Sort = new List<Sort>();
-                request.Sort.Add(new Sort() { Field = "ID", Dir = "asc" });
+                request.Sort.Add(new Sort() { Field = "CreateDate", Dir = "desc" });
             }
 
             expr = request.Sort

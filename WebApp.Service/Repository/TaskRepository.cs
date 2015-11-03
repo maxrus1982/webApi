@@ -44,7 +44,7 @@ namespace WebApp.Service
         protected override IQueryable<Task> Where(IQueryable<Task> expr, TaskRequest request)
         {
             var __expr = base.Where(expr, request);
-            if (request.IngnoreCompletedTasks)
+            if (request.IgnoreCompletedTasks)
                 __expr = __expr.Where(x => x.Completed == false);
             return __expr;
         }
@@ -75,9 +75,18 @@ namespace WebApp.Service
         protected override void OnGetDocument(TaskDTO documentDTO, TaskRequest request)
         {
             base.OnGetDocument(documentDTO, request);
-            documentDTO.TodayTask = !documentDTO.Completed && documentDTO.PlanEndDate.Date == DateTime.Now.Date;
-            documentDTO.LaterTask = !documentDTO.Completed && documentDTO.PlanEndDate.Date > DateTime.Now.Date;
-            documentDTO.OverdueTask = !documentDTO.Completed && documentDTO.PlanEndDate.Date < DateTime.Now.Date;
+
+            documentDTO.TodayTask = !documentDTO.Completed &&
+                documentDTO.PlanEndDate != null &&
+                documentDTO.PlanEndDate.Value.Date == DateTime.Now.Date;
+
+            documentDTO.LaterTask = !documentDTO.Completed &&
+                documentDTO.PlanEndDate != null &&
+                documentDTO.PlanEndDate.Value.Date > DateTime.Now.Date;
+
+            documentDTO.OverdueTask = !documentDTO.Completed &&
+                documentDTO.PlanEndDate != null &&
+                documentDTO.PlanEndDate.Value.Date < DateTime.Now.Date;
 
             if (documentDTO.Completed)
                 documentDTO.State = TaskStateEnum.Completed;
