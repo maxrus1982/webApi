@@ -15,8 +15,6 @@ namespace WebApp.Core
             {
                 return (T)__attrs[0];
             }
-
-            //throw new Exception(string.Format("Type \"{0}\" not have attribute \"{1}\"", type, typeof(T)));
             return null;
         }
 
@@ -28,8 +26,6 @@ namespace WebApp.Core
             {
                 return (IEnumerable<T>)__attrs.AsEnumerable();
             }
-
-            //throw new Exception(string.Format("Type \"{0}\" not have attribute \"{1}\"", type, typeof(T)));
             return null;
         }
 
@@ -39,9 +35,7 @@ namespace WebApp.Core
             if (__attrs.Any())
             {
                 return (T)__attrs[0];
-            }
-
-            //throw new Exception(string.Format("Property \"{0}\" not have attribute \"{1}\".", info.Name, typeof(T)));
+            }            
             return null;
         }
 
@@ -63,9 +57,7 @@ namespace WebApp.Core
             if (__attrs.Any())
             {
                 return (T)__attrs[0];
-            }
-
-            //throw new Exception(string.Format("Method \"{0}\" not have attribute \"{1}\".", info.Name, typeof(T)));
+            }            
             return null;
         }
 
@@ -85,14 +77,7 @@ namespace WebApp.Core
             object[] __attrs = info.GetCustomAttributes(typeof(T), true);
             return (__attrs.Any());
         }
-
-
-        /// <summary>
-        /// Возвращает лист типов из сборки assemblyName, помеченных атрибутом T
-        /// </summary>
-        /// <typeparam name="T">Атрибут</typeparam>
-        /// <param name="assemblyName">Имя сборки</param>
-        /// <returns></returns>
+        
         public static IList<Type> GetTypes<T>(String assemblyName) where T : Attribute
         {
             var __assm = Assembly.LoadFrom(assemblyName);

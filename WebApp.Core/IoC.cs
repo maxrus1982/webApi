@@ -228,9 +228,6 @@ namespace WebApp.Core
                             {
                                 
                             }
-
-                            /*if (section != null)
-                                section.Configure(instance);*/
                         }
                     });
                 }
