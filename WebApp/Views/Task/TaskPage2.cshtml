@@ -11,6 +11,18 @@
     <script src="/Scripts/Task/services.js"></script>
 </head>
 <body ng-controller="wAppCtrlPage2">
+    <label>TotalRows</label>
+    <input type="text" ng-readonly="true" ng-model="TotalRows" />
+
+    <label>Page</label>
+    <input type="text" ng-readonly="true" ng-model="Page" />
+
+    <label>PageSize</label>
+    <input type="text" ng-readonly="true" ng-model="Take" />
+
+    <label>Skipped</label>
+    <input type="text" ng-readonly="true" ng-model="Skip" />
+
     <div class="content">
         <table id="dataTable">
             <thead>

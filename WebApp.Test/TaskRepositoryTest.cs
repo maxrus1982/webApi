@@ -46,6 +46,19 @@ namespace WebApp.Test
                 AddTask("Foo_" + i, false);
         }
 
+        private void AddTask(string name, bool completed)
+        {
+            var __id = Guid.NewGuid();
+            var __documentDTO = Repository.New(new CreateTaskRequest()
+            {
+                PlanBeginDate = DateTime.Now,
+                PlanEndDate = DateTime.Now.AddDays(100)
+            });
+            __documentDTO.Name = name;
+            __documentDTO.Completed = completed;
+            __documentDTO = Repository.Post(__documentDTO);
+        }
+
         private void RemoveAllTestRows()
         {
             foreach (var __itemID in Repository.GetList(new TaskRequest()).Select(x => x.ID))
@@ -65,17 +78,7 @@ namespace WebApp.Test
             __request.Take = 10;
             var __dataList = Repository.GetList(__request);
             //размер страницы 20, а общее количество > 10
-            Assert.IsTrue(__dataList.Count > 0 && __dataList.Count == 10 && __request.TotalRows>10);
-
-            //простой список
-            __request = new TaskRequest();
-            __request.Page = 1;
-            __request.Skip = 0;
-            __request.Take = 10;
-            __request.IgnoreCompletedTasks = true; //!!!
-            __dataList = Repository.GetList(__request);
-            //размер страницы 10, а общее количество > 10, с учетом кастомного фильтра через Request.IgnoreCompletedTasks
-            Assert.IsTrue(__dataList.Count > 0 && __dataList.Count == 10 && __dataList.Where(x => x.State == TaskStateEnum.Completed).Count() == 0);
+            Assert.IsTrue(__dataList.Count > 0 && __dataList.Count == 10 && __request.TotalRows > 10, "TasksListPassed.Simple");
 
             //пагинация по 21 запись
             __request = new TaskRequest();
@@ -84,9 +87,19 @@ namespace WebApp.Test
             __request.Take = 10;//!!!
             __dataList = Repository.GetList(__request);
             //вторая страница, по 10 записей
-            Assert.IsTrue(__dataList.Count == 10 && __request.TotalRows > 20);
+            Assert.IsTrue(__dataList.Count == 10 && __request.TotalRows > 20, "TasksListPassed.Simple");
 
-            //кастомный фильтр по ID-у
+            //статитический фильтр через поля Request
+            __request = new TaskRequest();
+            __request.Page = 1;
+            __request.Skip = 0;
+            __request.Take = 10;
+            __request.IgnoreCompletedTasks = true; //!!!
+            __dataList = Repository.GetList(__request);
+            //размер страницы 10, а общее количество > 10, с учетом кастомного фильтра через Request.IgnoreCompletedTasks
+            Assert.IsTrue(__dataList.Count > 0 && __dataList.Count == 10 && __dataList.Where(x => x.State == TaskStateEnum.Completed).Count() == 0, "TasksListPassed.StaticFilters");
+
+            //статитический фильтр через поля Request
             __request = new TaskRequest();
             __request.Page = 1;
             __request.Skip = 0;
@@ -94,7 +107,7 @@ namespace WebApp.Test
             __request.ID = Repository.GetList(new TaskRequest()).Select(x => x.ID).FirstOrDefault();//!!!
             __dataList = Repository.GetList(__request);
             //запрос должен вернуть только одну запись
-            Assert.IsTrue(__dataList.Count == 1);
+            Assert.IsTrue(__dataList.Count == 1, "TasksListPassed.StaticFilters");
 
             //search none
             __request = new TaskRequest();
@@ -106,7 +119,7 @@ namespace WebApp.Test
             __request.SearchData.Fields.Add("Name");//!!!
             __dataList = Repository.GetList(__request);
             //запрос не должен вернуть результат
-            Assert.IsTrue(__dataList.Count == 0);
+            Assert.IsTrue(__dataList.Count == 0, "TasksListPassed.Search");
 
             //search Foo
             __request = new TaskRequest();
@@ -118,7 +131,7 @@ namespace WebApp.Test
             __request.SearchData.Fields.Add("Name");//!!!
             __dataList = Repository.GetList(__request);
             //запрос должен вернуть результат
-            Assert.IsTrue(__dataList.Count == 10);
+            Assert.IsTrue(__dataList.Count == 10, "TasksListPassed.Search");
 
             //order by
             __request = new TaskRequest();
@@ -132,7 +145,7 @@ namespace WebApp.Test
             Assert.IsTrue(
                 __dataList.FirstOrDefault().ID == __orderedDataList.FirstOrDefault().ID &&
                 __dataList.LastOrDefault().ID == __orderedDataList.LastOrDefault().ID
-            );
+            , "TasksListPassed.OrderBy");
 
             //filter none
             __request = new TaskRequest();
@@ -144,7 +157,7 @@ namespace WebApp.Test
             __request.Filter.Filters.Add(new Filter() { Field = "Name", Operator = "contains", Value = "FilterTextЧЧЧЧЧЧЧЧЧЧЧЧЧЧЧЧЧЧЧЧЧЧЧ" });//!!!
             __dataList = Repository.GetList(__request);
             //запрос не должен вернуть результат
-            Assert.IsTrue(__dataList.Count == 0);
+            Assert.IsTrue(__dataList.Count == 0, "TasksListPassed.DynamicFilters");
 
             //filter Foo
             __request = new TaskRequest();
@@ -156,7 +169,7 @@ namespace WebApp.Test
             __request.Filter.Filters.Add(new Filter() { Field = "Name", Operator = "contains", Value = "Foo" });//!!!
             __dataList = Repository.GetList(__request);
             //запрос должен вернуть результат
-            Assert.IsTrue(__dataList.Count == 10);
+            Assert.IsTrue(__dataList.Count == 10, "TasksListPassed.DynamicFilters");
             
             RemoveAllTestRows();
             AddTestRows();
@@ -175,8 +188,9 @@ namespace WebApp.Test
         [TestMethod]
         public void TaskPassed()
         {
-            var __documentDTO = Repository.Get(Guid.NewGuid());
-            Assert.IsNull(__documentDTO);
+            var __id = Repository.GetList(new TaskRequest()).Select(x => x.ID).FirstOrDefault();
+            var __documentDTO = Repository.Get(__id);
+            Assert.IsNotNull(__documentDTO);
         }
 
         [TestMethod]
@@ -233,21 +247,8 @@ namespace WebApp.Test
             });
             __documentDTO.Name = "Foo";
             __documentDTO = Repository.Post(__documentDTO);
-            Repository.Remove(__documentDTO.ID);
-            Assert.IsNotNull(__documentDTO);
-        }
-
-        protected void AddTask(string name, bool completed)
-        {
-            var __id = Guid.NewGuid();
-            var __documentDTO = Repository.New(new CreateTaskRequest()
-            {
-                PlanBeginDate = DateTime.Now,
-                PlanEndDate = DateTime.Now.AddDays(100)
-            });
-            __documentDTO.Name = name;
-            __documentDTO.Completed = completed;
-            __documentDTO = Repository.Post(__documentDTO);
+            var __opretionResult = Repository.Remove(__documentDTO.ID);
+            Assert.IsTrue(__opretionResult);
         }
     }
 }
