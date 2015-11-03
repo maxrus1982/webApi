@@ -13,6 +13,7 @@ namespace WebApp.Service.Interface
 {
     [DataContract]
     [JsonObject(MemberSerialization.OptOut)]
+    [Serializable]
     public abstract class BaseDocumentDTO : IDocumentDTO
     {
         public virtual Guid ID { get; set; }
